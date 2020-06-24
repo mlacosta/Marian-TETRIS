@@ -29,10 +29,6 @@ export class Block {
     update(game){
         this.position.y += this.speed;
 
-        if (this.position.y + this.gameUnit*2 >= this.gameHeigth){
-            this.position.y = this.gameHeigth - this.gameUnit*2;
-            game.state.updateMatrix(this,game);
-        }
     }
 }
 

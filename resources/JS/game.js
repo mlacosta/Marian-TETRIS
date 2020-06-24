@@ -1,4 +1,4 @@
-const BG = '#fff'; //background color
+const BG = '#fef'; //background color
 
 export class State {
     constructor(){
@@ -9,16 +9,17 @@ export class State {
         this.state = 'update matrix';
         let coordinates = game.getCoordinates(block);
         
+        console.log(coordinates)
         game.setGameMatrix(coordinates.x,coordinates.y,block.color);
-        game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
-        game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
-        game.setGameMatrix(coordinates.x + 1,coordinates.y + 1,block.color);
+        game.setGameMatrix(coordinates.x,coordinates.y+1,block.color);
+
 
     }
 
-    draw(){
-
+    newBlock(){
+        this.state = 'new block';
     }
+
 
 }   
 
@@ -49,17 +50,26 @@ export class Game{
     getCoordinates(block){
         let unitX = Math.floor(block.position.x / this.gameUnit);
         let unitY = Math.floor(block.position.y / this.gameUnit);
-
+        
         return {x: unitX , y: unitY};
     }
 
     setGameMatrix(x,y,color){
-        this.gameMatrix[x][y] = color;
+        this.gameMatrix[5][y] = color;
     }
 
     drawMatrix(context){
 
+        let dim = [ this.gameMatrix.length, this.gameMatrix[0].length ];
 
+        for (let i = 0 ; i< dim[0]; i++){
+            for(let j = 0; j< dim[1]; j++){
+                context.fillStyle = this.gameMatrix[i][j];
+                context.fillRect(i*this.gameUnit,j*this.gameUnit,this.gameUnit,this.gameUnit);
+            }
+        }
+
+        
     }
 }
 
