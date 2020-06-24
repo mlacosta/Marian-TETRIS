@@ -11,7 +11,7 @@
 ** Observer Pattern
 **
 */
-import {Block} from './blocks.js';
+import {Block,blockFactory} from './blocks.js';
 import {Game} from './game.js';
 
 const GAME_WIDTH = 400;
@@ -30,7 +30,7 @@ let params = {
 
 let game = new  Game(params);
 
-let block = new Block(game);
+let block = blockFactory(game);
 
 let lastTime = 0;
 

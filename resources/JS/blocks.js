@@ -10,10 +10,10 @@ export class Block {
         this.gameUnit = game.gameUnit;
         this.speed = game.speed;
         this.position = {
-            x:Math.floor(Math.random()*20)*this.gameUnit,
+            x:Math.floor(Math.random()*19)*this.gameUnit,
             y:0
         }
-        
+
     }
 
     draw (context){
@@ -34,5 +34,8 @@ export class Block {
             game.state.updateMatrix(this,game);
         }
     }
+}
 
+export const blockFactory = (game)=>{
+    return new Block(game);
 }
