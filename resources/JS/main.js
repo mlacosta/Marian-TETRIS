@@ -5,12 +5,13 @@
 ** Tetris Clone (coded and built from scratch)
 **
 ** In this project I'll use many software patterns, including:
-** Module Pattern (slef contained code)
+** Module Pattern (self contained code)
 ** Factory Pattern
 ** State Pattern
 ** Observer Pattern
 **
 */
+
 import {Block,blockFactory} from './blocks.js';
 import {Game} from './game.js';
 
