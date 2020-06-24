@@ -11,7 +11,9 @@ export class State {
         
         console.log(coordinates)
         game.setGameMatrix(coordinates.x,coordinates.y,block.color);
-        game.setGameMatrix(coordinates.x,coordinates.y+1,block.color);
+        game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
+        game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
+        game.setGameMatrix(coordinates.x + 1,coordinates.y + 1,block.color);
 
 
     }
@@ -20,9 +22,7 @@ export class State {
         this.state = 'new block';
     }
 
-
 }   
-
 
 export class Game{
 
@@ -34,13 +34,13 @@ export class Game{
         this.gameMatrix = [];
         this.state = new State();
 
-        let verticalUnits = [];
-
-        for (let i = 0; i<(this.gameHeigth/this.gameUnit); i++){
-            verticalUnits.push(BG);
-        }
-
         for (let i = 0; i<(this.gameWidht/this.gameUnit); i++){
+            let verticalUnits = [];
+
+            for (let i = 0; i<(this.gameHeigth/this.gameUnit); i++){
+                verticalUnits.push(BG);
+            }
+
             this.gameMatrix.push(verticalUnits);
         }
 
@@ -55,7 +55,7 @@ export class Game{
     }
 
     setGameMatrix(x,y,color){
-        this.gameMatrix[5][y] = color;
+        this.gameMatrix[x][y] = color;
     }
 
     drawMatrix(context){
