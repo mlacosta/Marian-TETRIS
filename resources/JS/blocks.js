@@ -3,14 +3,14 @@ const colors = ['#fcba03','#fc3103','#f8fc03','#adfc03',
                 '#ce03fc','#fc039d'];
 
 export class Block {
-    constructor (params){
+    constructor (game){
         this.color = colors[Math.floor(Math.random()*10)];
-        this.gameWidht = params.gameWidht;
-        this.gameHeigth = params.gameHeigth;
-        this.gameUnit = params.gameUnit;
-        this.speed = params.gameSpeed;
+        this.gameWidht = game.gameWidht;
+        this.gameHeigth = game.gameHeigth;
+        this.gameUnit = game.gameUnit;
+        this.speed = game.speed;
         this.position = {
-            x:Math.floor(Math.random()*19)*this.gameUnit,
+            x:Math.floor(Math.random()*20)*this.gameUnit,
             y:0
         }
         
@@ -26,11 +26,12 @@ export class Block {
                         );
     }
     
-    update(){
+    update(game){
         this.position.y += this.speed;
 
         if (this.position.y + this.gameUnit*2 >= this.gameHeigth){
-            this.position.y = this.gameHeigth - this.gameUnit*2
+            this.position.y = this.gameHeigth - this.gameUnit*2;
+            game.state.updateMatrix(this,game);
         }
     }
 

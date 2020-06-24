@@ -30,9 +30,7 @@ let params = {
 
 let game = new  Game(params);
 
-let block = new Block(params);
-
-block.draw(context);
+let block = new Block(game);
 
 let lastTime = 0;
 
@@ -41,7 +39,7 @@ const gameLoop = (timeStamp)=>{
     lastTime = timeStamp;
 
     context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
-    block.update();
+    block.update(game);
     block.draw(context);
 
     requestAnimationFrame(gameLoop)
