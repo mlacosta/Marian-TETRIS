@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+
+}
+
+body{
+    height: 100vh;
+    width:100% ;
+}
+#main{
+    width: 400px;
+    height: 640px;
+    margin: 50px auto;
+
+}
+
+#playfield{
+    border: 5px solid purple;
+
+}
