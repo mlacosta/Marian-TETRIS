@@ -5,18 +5,21 @@
 }
 
 html{
-
+    background-color: slateblue ;
 }
 
 body{
     height: 100vh;
     width:100% ;
+    margin: 0;
+    
 }
 #main{
     width: 400px;
     height: 640px;
-    margin: 50px auto;
-
+    margin: 0 auto;
+    padding: 50px;
+    
 }
 
 #playfield{

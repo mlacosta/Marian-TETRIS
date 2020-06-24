@@ -14,7 +14,7 @@
 
 import {Block,blockFactory} from './blocks.js';
 import {Game} from './game.js';
-import {collisionDetection} from './utils.js';
+import {collisionDetection, inputHandler} from './utils.js';
 
 const GAME_WIDTH = 400;
 const GAME_HEIGHT = 640;
@@ -27,7 +27,7 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 5
+    gameSpeed: 1
 };
 
 let game = new Game(params);
@@ -38,6 +38,32 @@ let lastTime = 0;
 
 let count = 0;
 
+//input handler------------------------------
+document.addEventListener('keydown', (event)=>{
+
+    switch(event.keyCode){
+        case 37:
+            block.moveLeft();
+            break;
+        case 39:
+            block.moveRight();
+            break;
+        case 40:
+            block.increaseSpeed();
+            break;
+    }
+})
+
+document.addEventListener('keyup', (event)=>{
+
+
+    switch(event.keyCode){
+        case 40:
+            block.restoreSpeed();
+            break;
+    }
+})
+//----------------------------------------------------
 const gameLoop = (timeStamp)=>{
     let dt = timeStamp - lastTime;
     lastTime = timeStamp;
@@ -52,6 +78,7 @@ const gameLoop = (timeStamp)=>{
         case 'new block':
             block.update(game);
             block.draw(context);
+
             collisionDetection(block,game);
             break;
 

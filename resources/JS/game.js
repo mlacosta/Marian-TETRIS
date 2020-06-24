@@ -1,4 +1,4 @@
-const BG = '#fef'; //background color
+const BG = '#fff'; //background color
 
 export class State {
     constructor(){

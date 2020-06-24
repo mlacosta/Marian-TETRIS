@@ -1,9 +1,11 @@
-let inputHandler = ( ()=>{
+export const inputHandler = (block) =>{
 
 
 
 }
-)();
+
+
+
 
 export const collisionDetection = (block,game)=>{
     if (block.position.y + block.gameUnit*2 >= block.gameHeigth){ //collision

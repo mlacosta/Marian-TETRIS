@@ -9,6 +9,9 @@ export class Block {
         this.gameHeigth = game.gameHeigth;
         this.gameUnit = game.gameUnit;
         this.speed = game.speed;
+        this.upSpeedFactor = 10;
+        this.upSpeed = this.speed* this.upSpeedFactor;
+        this.xSpeed = this.gameUnit;
         this.position = {
             x:Math.floor(Math.random()*19)*this.gameUnit,
             y:0
@@ -29,6 +32,28 @@ export class Block {
     update(game){
         this.position.y += this.speed;
 
+    }
+
+    moveLeft(){
+        this.position.x -= this.xSpeed;
+        if (this.position.x <0){
+            this.position.x = 0;
+        } 
+    }
+
+    moveRight(){
+        this.position.x += this.xSpeed;
+        if (this.position.x > (this.gameWidht - 2*this.gameUnit)){
+            this.position.x = this.gameWidht - 2*this.gameUnit;
+        } 
+    }
+
+    increaseSpeed(){
+        this.speed = this.upSpeed;
+    }
+
+    restoreSpeed(){
+        this.speed = this.upSpeed/ this.upSpeedFactor;
     }
 }
 
