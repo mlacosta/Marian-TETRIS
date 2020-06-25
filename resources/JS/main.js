@@ -27,16 +27,18 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 1
+    gameSpeed: 5,
+    maxSpeed: 10,
+    bgColor: '#fff'
 };
 
 let game = new Game(params);
 
-let block = blockFactory(game);
+let block = blockFactory(params);
 
 let lastTime = 0;
 
-let count = 0;
+let frameCount = 0;
 
 //input handler------------------------------
 document.addEventListener('keydown', (event)=>{
@@ -55,7 +57,6 @@ document.addEventListener('keydown', (event)=>{
 })
 
 document.addEventListener('keyup', (event)=>{
-
 
     switch(event.keyCode){
         case 40:
@@ -88,9 +89,9 @@ const gameLoop = (timeStamp)=>{
             break;
     }
 
-    count ++;
+    /*frameCount ++;
 
-    /*if (count === 119){
+    if (frameCount === 119){
         return;
     }*/
     requestAnimationFrame(gameLoop)

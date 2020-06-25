@@ -3,14 +3,14 @@ const colors = ['#fcba03','#fc3103','#f8fc03','#adfc03',
                 '#ce03fc','#fc039d'];
 
 export class Block {
-    constructor (game){
+    constructor (params){
         this.color = colors[Math.floor(Math.random()*10)];
-        this.gameWidht = game.gameWidht;
-        this.gameHeigth = game.gameHeigth;
-        this.gameUnit = game.gameUnit;
-        this.speed = game.speed;
-        this.upSpeedFactor = 10;
-        this.upSpeed = this.speed* this.upSpeedFactor;
+        this.gameWidht = params.gameWidht;
+        this.gameHeigth = params.gameHeigth;
+        this.gameUnit = params.gameUnit;
+        this.speed = params.speed;
+        this.defaultSpeed = params.speed;
+        this.maxSpeed = params.maxSpeed;
         this.xSpeed = this.gameUnit;
         this.position = {
             x:Math.floor(Math.random()*19)*this.gameUnit,
@@ -49,14 +49,29 @@ export class Block {
     }
 
     increaseSpeed(){
-        this.speed = this.upSpeed;
+        this.speed = 22;
     }
 
     restoreSpeed(){
-        this.speed = this.upSpeed/ this.upSpeedFactor;
+        this.speed = this.defaultSpeed;
     }
+
+    getCoordinates(){
+        let unitX = Math.floor(this.position.x / this.gameUnit);
+        let unitY = Math.floor(this.position.y / this.gameUnit);
+        
+        return {x: unitX , y: unitY};
+    }
+
+    getLowCoordinates(){
+        let unitX = Math.floor(this.position.x / this.gameUnit);
+        let unitY = Math.floor((this.position.y + 2*this.gameUnit)/ this.gameUnit);
+        
+        return {x: unitX , y: unitY};
+    }
+
 }
 
-export const blockFactory = (game)=>{
-    return new Block(game);
+export const blockFactory = (params)=>{
+    return new Block(params);
 }
