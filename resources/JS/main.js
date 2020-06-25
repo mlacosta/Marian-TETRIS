@@ -79,6 +79,10 @@ const gameLoop = (timeStamp)=>{
     if (debugMode){
         context.fillStyle = '#fff';
         context.fillText('Debug Mode', 300, 10);
+        let axis = block.getCoordinates();
+        context.fillText(`X: ${axis.x}`, 300, 25);
+        context.fillText(`Y: ${axis.y}`, 300, 40);
+
     }
 
 
@@ -89,7 +93,6 @@ const gameLoop = (timeStamp)=>{
             block.update(game);
             game.checkMovement(block);
             block.draw(context);
-            console.log(block.enableLeft);
             break;
 
         case 'update matrix':
