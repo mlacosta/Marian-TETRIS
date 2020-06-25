@@ -49,7 +49,7 @@ export class Block {
     }
 
     increaseSpeed(){
-        this.speed = 22;
+        this.speed = 15;
     }
 
     restoreSpeed(){
@@ -66,8 +66,32 @@ export class Block {
     getLowCoordinates(){
         let unitX = Math.floor(this.position.x / this.gameUnit);
         let unitY = Math.floor((this.position.y + 2*this.gameUnit)/ this.gameUnit);
-        
+    
         return {x: unitX , y: unitY};
+    }
+
+    collisionDetection = (game)=>{
+        let lowCoordinates = this.getLowCoordinates();
+        let highCoordinates = this.getCoordinates();
+        
+        if (game.gameMatrix[highCoordinates.x][0] !== game.bgColor){
+            game.state.gameOver(game);
+            
+        }
+        
+        if (this.position.y + this.gameUnit*2 >= this.gameHeigth){ //collision with the ground
+            this.position.y = this.gameHeigth - this.gameUnit*2;
+            game.state.updateMatrix(this,game);
+        }
+    
+
+        if((game.gameMatrix[lowCoordinates.x][lowCoordinates.y] !== game.bgColor) 
+            || (game.gameMatrix[lowCoordinates.x+1][lowCoordinates.y] !== game.bgColor)){
+            game.state.updateMatrix(this,game);
+        }
+    
+        console.log(lowCoordinates);
+
     }
 
 }

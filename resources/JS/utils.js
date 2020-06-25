@@ -27,22 +27,3 @@ export const inputHandler = (block) =>{
 
 }
 
-
-export const collisionDetection = (block,game)=>{
-    if (block.position.y + block.gameUnit*2 >= block.gameHeigth){ //collision
-        block.position.y = block.gameHeigth - block.gameUnit*2;
-        game.state.updateMatrix(block,game);
-    }
-
-    let lowCoordinates = block.getLowCoordinates()
-
-    if((game.gameMatrix[lowCoordinates.x][lowCoordinates.y] !== game.bgColor) 
-        || (game.gameMatrix[lowCoordinates.x+1][lowCoordinates.y] !== game.bgColor)){
-        game.state.updateMatrix(block,game);
-    }
-
-    console.log(lowCoordinates);
-
-
-
-}

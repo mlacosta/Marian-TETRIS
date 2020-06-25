@@ -20,6 +20,11 @@ export class State {
         this.state = 'new block';
     }
 
+    gameOver(game){
+        alert('GAME OVER!')
+        game.generateMatrix();
+    }
+
 }   
 
 export class Game{
@@ -33,6 +38,14 @@ export class Game{
         this.state = new State();
         this.bgColor = params.bgColor;
 
+        this.generateMatrix();
+
+        console.log(this.gameMatrix.length)
+    }
+
+    generateMatrix(){
+        this.gameMatrix = [];
+
         for (let i = 0; i<(this.gameWidht/this.gameUnit); i++){
             let verticalUnits = [];
 
@@ -42,8 +55,6 @@ export class Game{
 
             this.gameMatrix.push(verticalUnits);
         }
-
-        console.log(this.gameMatrix.length)
     }
 
     setGameMatrix(x,y,color){

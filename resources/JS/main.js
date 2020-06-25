@@ -14,7 +14,7 @@
 
 import {Block,blockFactory} from './blocks.js';
 import {Game} from './game.js';
-import {collisionDetection, inputHandler} from './utils.js';
+import {inputHandler} from './utils.js';
 
 const GAME_WIDTH = 400;
 const GAME_HEIGHT = 640;
@@ -27,7 +27,7 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 5,
+    gameSpeed: 20,
     maxSpeed: 10,
     bgColor: '#fff'
 };
@@ -77,16 +77,16 @@ const gameLoop = (timeStamp)=>{
 
     switch (game.state.state){
         case 'new block':
+            block.collisionDetection(game);
             block.update(game);
             block.draw(context);
-
-            collisionDetection(block,game);
             break;
 
         case 'update matrix':
             game.state.newBlock();
             block = blockFactory(game);
             break;
+        
     }
 
     /*frameCount ++;
