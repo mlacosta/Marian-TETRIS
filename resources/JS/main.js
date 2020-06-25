@@ -78,11 +78,15 @@ const gameLoop = (timeStamp)=>{
 
     if (debugMode){
         context.fillStyle = '#fff';
-        context.fillText('Debug Mode', 300, 10);
+        //context.fillText('Debug Mode', 300, 10);
         let axis = block.getCoordinates();
-        context.fillText(`X: ${axis.x}`, 300, 25);
-        context.fillText(`Y: ${axis.y}`, 300, 40);
-
+        context.fillText(`Type: ${'block'}`, 300, 25);
+        context.fillText(`X: ${axis.x}`, 300, 40);
+        context.fillText(`Y: ${axis.y}`, 300, 55);
+        context.fillText(`Color: ${block.color}`, 300, 70);
+        context.fillText(`Right Crash: ${!block.enableRight}`, 300, 85);
+        context.fillText(`Left Crash: ${!block.enableLeft}`, 300, 100);
+        context.fillText(`Speed: ${params.gameSpeed}`, 300, 115);
     }
 
 

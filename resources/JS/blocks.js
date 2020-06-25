@@ -42,7 +42,7 @@ export class Block {
             this.position.x -= this.xSpeed;
         }
         
-        if (this.position.x <0){
+        if (this.position.x <= 0){
             this.position.x = 0;
         } 
     }
@@ -50,10 +50,13 @@ export class Block {
     moveRight(){
         if (this.enableRight){
             this.position.x += this.xSpeed;
+            
         }
         
-        if (this.position.x > (this.gameWidht - 2*this.gameUnit)){
+        if (this.position.x >= (this.gameWidht - 2*this.gameUnit)){
+            this.lockRight();
             this.position.x = this.gameWidht - 2*this.gameUnit;
+            
         } 
     }
 
