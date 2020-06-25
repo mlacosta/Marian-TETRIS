@@ -16,6 +16,8 @@ export class Block {
             x:Math.floor(Math.random()*19)*this.gameUnit,
             y:0
         }
+        this.enableRight = true;
+        this.enableLeft = true;
 
     }
 
@@ -35,14 +37,21 @@ export class Block {
     }
 
     moveLeft(){
-        this.position.x -= this.xSpeed;
+
+        if (this.enableLeft){
+            this.position.x -= this.xSpeed;
+        }
+        
         if (this.position.x <0){
             this.position.x = 0;
         } 
     }
 
     moveRight(){
-        this.position.x += this.xSpeed;
+        if (this.enableRight){
+            this.position.x += this.xSpeed;
+        }
+        
         if (this.position.x > (this.gameWidht - 2*this.gameUnit)){
             this.position.x = this.gameWidht - 2*this.gameUnit;
         } 
@@ -70,6 +79,15 @@ export class Block {
         return {x: unitX , y: unitY};
     }
 
+    getBorders(){
+        let x1 = Math.floor(this.position.x / this.gameUnit);
+        let x2 = x1 + 1;
+        let y1 = Math.floor(this.position.y / this.gameUnit);
+        let y2 = y1 + 1;
+
+        return {x1,x2,y1,y2};
+    }
+
     collisionDetection = (game)=>{
         let lowCoordinates = this.getLowCoordinates();
         let highCoordinates = this.getCoordinates();
@@ -90,8 +108,24 @@ export class Block {
             game.state.updateMatrix(this,game);
         }
     
-        console.log(lowCoordinates);
+        //console.log(lowCoordinates);
 
+    }
+
+    lockRight(){
+        this.enableRight = false;
+    }
+
+    lockLeft(){
+        this.enableLeft =  false;
+    }
+
+    unlockRight(){
+        this.enableRight = true;
+    }
+
+    unlockLeft(){
+        this.enableLeft =  true;
     }
 
 }

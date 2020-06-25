@@ -7,7 +7,6 @@ export class State {
         this.state = 'update matrix';
         let coordinates = block.getCoordinates();
         
-        console.log(coordinates)
         game.setGameMatrix(coordinates.x,coordinates.y,block.color);
         game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
         game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
@@ -40,7 +39,6 @@ export class Game{
 
         this.generateMatrix();
 
-        console.log(this.gameMatrix.length)
     }
 
     generateMatrix(){
@@ -70,9 +68,31 @@ export class Game{
                 context.fillStyle = this.gameMatrix[i][j];
                 context.fillRect(i*this.gameUnit,j*this.gameUnit,this.gameUnit,this.gameUnit);
             }
+        }    
+    }
+
+    checkMovement(block){
+        let coor = block.getBorders();
+
+        if ((coor.x1-1)>0){
+            if((this.gameMatrix[coor.x1-1][coor.y1] !== this.bgColor)||(this.gameMatrix[coor.x1-1][coor.y2] !== this.bgColor)){
+                block.lockLeft();
+            }
+            else{
+                block.unlockLeft();
+            }
         }
 
-        
+        if ((coor.x2+1)<this.gameMatrix.length){
+            if((this.gameMatrix[coor.x2+1][coor.y1] !== this.bgColor)||(this.gameMatrix[coor.x2+1][coor.y2] !== this.bgColor)){
+                block.lockRight();
+            }
+            else{
+                block.unlockRight();
+            }
+        }
+
+
     }
 }
 

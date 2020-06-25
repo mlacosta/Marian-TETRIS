@@ -27,7 +27,7 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 15,
+    gameSpeed: 3,
     maxSpeed: 10,
     bgColor: '#000'
 };
@@ -79,7 +79,9 @@ const gameLoop = (timeStamp)=>{
         case 'new block':
             block.collisionDetection(game);
             block.update(game);
+            game.checkMovement(block);
             block.draw(context);
+            console.log(block.enableLeft);
             break;
 
         case 'update matrix':
