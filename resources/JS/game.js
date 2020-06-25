@@ -91,8 +91,36 @@ export class Game{
                 block.unlockRight();
             }
         }
-
-
     }
+
+    checkDestruction(){
+        let dim = [this.gameMatrix.length,this.gameMatrix[0].length];
+
+        for (let j=0;j<dim[1];j++){
+            let counter = 0;
+            while (counter<dim[0]){
+                if (this.gameMatrix[counter][j] !== this.bgColor){
+                    counter++;
+                }else{
+                    break;
+                }
+            }
+
+            if (counter === dim[0]){
+                this.destroyRow(j);
+            }
+        }
+    }
+
+    destroyRow(row){
+
+        let dim = [this.gameMatrix.length,this.gameMatrix[0].length];
+
+        for(let x=0; x<dim[0];x++){
+            this.gameMatrix[x].splice(row,1);
+            this.gameMatrix[x].unshift(this.bgColor);
+        }
+    }
+    
 }
 

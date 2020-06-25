@@ -97,6 +97,7 @@ const gameLoop = (timeStamp)=>{
             block.update(game);
             game.checkMovement(block);
             block.draw(context);
+            game.checkDestruction();
             break;
 
         case 'update matrix':
