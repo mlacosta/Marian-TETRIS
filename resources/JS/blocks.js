@@ -1,10 +1,10 @@
 const colors = ['#fcba03','#fc3103','#f8fc03','#adfc03',
                 '#03fc03','#03ebfc','#0367fc','#6203fc',
-                '#ce03fc','#fc039d'];
+                '#ce03fc','#fc039d','#800040'];
 
 export class Block {
     constructor (params){
-        this.color = colors[Math.floor(Math.random()*10)];
+        this.color = colors[Math.floor(Math.random()*colors.length)];
         this.gameWidht = params.gameWidht;
         this.gameHeigth = params.gameHeigth;
         this.gameUnit = params.gameUnit;
