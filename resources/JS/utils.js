@@ -27,3 +27,6 @@ export const inputHandler = (block) =>{
 
 }
 
+export class Debug{
+    
+}

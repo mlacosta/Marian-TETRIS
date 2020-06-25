@@ -22,6 +22,7 @@ const GAME_UNIT = GAME_WIDTH/20;
 
 let playfield = document.getElementById('playfield');
 let context = playfield.getContext('2d');
+let debugMode = true;
 
 let params = {
     gameWidht: GAME_WIDTH,
@@ -74,6 +75,13 @@ const gameLoop = (timeStamp)=>{
 
     //console.log(count);
     //console.log(game.gameMatrix);
+
+    if (debugMode){
+        context.fillStyle = '#fff';
+        context.fillText('Debug Mode', 300, 10);
+    }
+
+
 
     switch (game.state.state){
         case 'new block':

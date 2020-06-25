@@ -12,17 +12,30 @@ body{
     height: 100vh;
     width:100% ;
     margin: 0;
-    
+    display: block;
 }
 #main{
-    width: 400px;
+    /*width: 400px;
     height: 640px;
-    margin: 0 auto;
-    padding: 50px;
+    
+    padding: 50px;*/
+    width: 100%;
     
 }
 
 #playfield{
     border: 5px solid purple;
+    margin: 50px 30%;
+
 }
 
+
+#debug{
+
+    background-color: white;
+    position: absolute;
+    right: 10%;
+    top:50px;
+    height: 200px;
+    width: 100px;
+}
