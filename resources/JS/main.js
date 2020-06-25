@@ -80,7 +80,7 @@ const gameLoop = (timeStamp)=>{
         context.fillStyle = '#fff';
         //context.fillText('Debug Mode', 300, 10);
         let axis = block.getCoordinates();
-        context.fillText(`Type: ${'block'}`, 300, 25);
+        context.fillText(`Type: ${block.type}`, 300, 25);
         context.fillText(`X: ${axis.x}`, 300, 40);
         context.fillText(`Y: ${axis.y}`, 300, 55);
         context.fillText(`Color: ${block.color}`, 300, 70);
@@ -97,10 +97,10 @@ const gameLoop = (timeStamp)=>{
             block.update(game);
             game.checkMovement(block);
             block.draw(context);
-            game.checkDestruction();
             break;
 
         case 'update matrix':
+            game.checkDestruction();
             game.state.newBlock();
             block = blockFactory(game);
             break;

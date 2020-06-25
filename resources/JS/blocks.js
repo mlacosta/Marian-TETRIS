@@ -18,6 +18,7 @@ export class Block {
         }
         this.enableRight = true;
         this.enableLeft = true;
+        this.type = 'block';
 
     }
 
@@ -133,6 +134,84 @@ export class Block {
 
 }
 
+class Stick extends Block{
+    constructor(params){
+        super(params);
+        this.type = 'stick';
+    }
+
+    draw (context){
+        context.fillStyle = this.color;
+        context.fillRect(
+                        this.position.x,
+                        this.position.y,
+                        this.gameUnit*1,
+                        this.gameUnit*4
+                        );
+    }
+
+    getLowCoordinates(){
+        let unitX = Math.floor(this.position.x / this.gameUnit);
+        let unitY = Math.floor((this.position.y + 4*this.gameUnit)/ this.gameUnit);
+    
+        return {x: unitX , y: unitY};
+    }
+
+    getBorders(){
+        let x1 = Math.floor(this.position.x / this.gameUnit);
+        let x2 = x1;
+        let y1 = Math.floor(this.position.y / this.gameUnit);
+        let y2 = y1 + 3;
+
+        return {x1,x2,y1,y2};
+    }
+
+    collisionDetection = (game)=>{
+        let lowCoordinates = this.getLowCoordinates();
+        let highCoordinates = this.getCoordinates();
+        
+        if (game.gameMatrix[highCoordinates.x][0] !== game.bgColor){
+            game.state.gameOver(game);
+            
+        }
+        
+        if (this.position.y + this.gameUnit*3 >= this.gameHeigth){ //collision with the ground
+            this.position.y = this.gameHeigth - this.gameUnit*4;
+            game.state.updateMatrix(this,game);
+        }
+    
+
+        if((game.gameMatrix[lowCoordinates.x][lowCoordinates.y] !== game.bgColor)){
+            game.state.updateMatrix(this,game);
+        }
+
+    }
+
+    moveRight(){
+        if (this.enableRight){
+            this.position.x += this.xSpeed;
+            
+        }
+        
+        if (this.position.x >= (this.gameWidht)){
+            this.lockRight();
+            this.position.x = this.gameWidht-this.gameUnit;
+            
+        } 
+    }
+
+}
+
 export const blockFactory = (params)=>{
-    return new Block(params);
+    let choice = Math.floor(Math.random()*2);
+
+    switch(choice){
+        case 0:
+            return new Block(params);
+            break;
+        case 1:
+            return new Stick(params);
+            break;
+    }
+    
 }

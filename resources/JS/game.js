@@ -6,11 +6,22 @@ export class State {
     updateMatrix(block,game){
         this.state = 'update matrix';
         let coordinates = block.getCoordinates();
+
+        switch(block.type){
+            case('block'):
+                game.setGameMatrix(coordinates.x,coordinates.y,block.color);
+                game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
+                game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
+                game.setGameMatrix(coordinates.x + 1,coordinates.y + 1,block.color);
+                break;
+            case('stick'):
+                game.setGameMatrix(coordinates.x,coordinates.y,block.color);
+                game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
+                game.setGameMatrix(coordinates.x,coordinates.y + 2,block.color);
+                game.setGameMatrix(coordinates.x,coordinates.y + 3,block.color);
+                break;
+        }
         
-        game.setGameMatrix(coordinates.x,coordinates.y,block.color);
-        game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
-        game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
-        game.setGameMatrix(coordinates.x + 1,coordinates.y + 1,block.color);
 
 
     }
