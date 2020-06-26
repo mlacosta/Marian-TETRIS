@@ -185,12 +185,13 @@ export class Stick extends Block{
             {x:this.position.x, y:this.position.y  + 3*this.gameUnit}]
         
         this.vertical = true;
+
     }
 
     rotate(){
         
         if(this.vertical){
-            if((this.body[0].x + this.gameUnit*3)<this.gameWidht){
+            if(((this.body[0].x + this.gameUnit*3)<this.gameWidht)){
                 this.body = [{x:this.body[0].x,y:this.body[0].y},
                 {x:this.body[0].x + this.gameUnit,y:this.body[0].y },
                 {x:this.body[0].x + this.gameUnit*2,y:this.body[0].y},
@@ -210,13 +211,68 @@ export class Stick extends Block{
 
 }
 
-export class Stick_H extends Block{
- 
+export class Lstick extends Block{
+    constructor(params,position,color){
+        super(params,position,color);
+        this.type = 'L_stick';
+        this.body = [position,
+            {x:this.position.x , y:this.position.y + this.gameUnit},
+            {x:this.position.x + this.gameUnit, y:this.position.y  + this.gameUnit},
+            {x:this.position.x + 2*this.gameUnit, y:this.position.y  + this.gameUnit}]
+        
+        this.vertical = true;
+
+    }
+
+    rotate(){
+        
+
+    }
+    
+}
+
+export class Tstick extends Block{
+    constructor(params,position,color){
+        super(params,position,color);
+        this.type = 'T_stick';
+        this.body = [position,
+            {x:this.position.x + this.gameUnit, y:this.position.y},
+            {x:this.position.x + 2*this.gameUnit, y:this.position.y  },
+            {x:this.position.x + this.gameUnit, y:this.position.y  + this.gameUnit}]
+        
+        this.vertical = true;
+
+    }
+
+    rotate(){
+        
+
+    }
+    
+}
+
+export class Rstick extends Block{
+    constructor(params,position,color){
+        super(params,position,color);
+        this.type = 'r_stick';
+        this.body = [position,
+            {x:this.position.x , y:this.position.y + this.gameUnit},
+            {x:this.position.x + this.gameUnit, y:this.position.y },
+            {x:this.position.x + 2*this.gameUnit, y:this.position.y}]
+        
+        this.vertical = true;
+
+    }
+
+    rotate(){
+        
+
+    }
     
 }
 
 export const blockFactory = (params, stick_h = false)=>{
-    let choice = Math.floor(Math.random()*2);
+    let choice = Math.floor(Math.random()*4);
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
     position =  {
@@ -237,18 +293,24 @@ export const blockFactory = (params, stick_h = false)=>{
                 y:0
             };
             return new Stick(params,position,color);
-        /*case 2:
+        case 2:
             position = {
-                x:Math.floor(Math.random()*17)*params.gameUnit,
+                x:Math.floor(Math.random()*18)*params.gameUnit,
                 y:0
             };
-            return new Stick_H(params,position,color);
+            return new Lstick(params,position,color);
         case 3:
             position = {
                 x:Math.floor(Math.random()*18)*params.gameUnit,
                 y:0
             };
-            return new Lstick(params,position,color);*/
+            return new Rstick(params,position,color);
+        case 4:
+            position = {
+                x:Math.floor(Math.random()*18)*params.gameUnit,
+                y:0
+            };
+            return new Tstick(params,position,color);
     }
     
 }

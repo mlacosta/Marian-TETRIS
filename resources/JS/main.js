@@ -12,7 +12,7 @@
 **
 */
 
-import {Block,blockFactory,Stick,Stick_H} from './blocks.js';
+import {Block,blockFactory} from './blocks.js';
 import {Game} from './game.js';
 import {inputHandler} from './utils.js';
 
