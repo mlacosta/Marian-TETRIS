@@ -116,7 +116,9 @@ const gameLoop = (timeStamp)=>{
     //console.log(game.state.state)
     switch (game.state.state){
         case 'new block':
+            
             block.draw(context);
+            
             block.update();
             block.collisionDetection(game);
             //game.checkMovement(block);

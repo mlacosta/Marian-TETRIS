@@ -9,7 +9,7 @@ export class Block {
         this.gameHeigth = params.gameHeigth;
         this.gameUnit = params.gameUnit;
         this.speed = params.gameSpeed;
-        this.defaultSpeed = params.speed;
+        this.defaultSpeed = params.gameSpeed;
         this.maxSpeed = params.maxSpeed;
         this.xSpeed = this.gameUnit;
         this.position = position;
@@ -144,12 +144,11 @@ export class Block {
         }
 
         
-        
-        if((game.gameMatrix[this.bodyCoor[0].x][this.bodyCoor[0].y] !== game.bgColor) 
-            || (game.gameMatrix[this.bodyCoor[1].x][this.bodyCoor[1].y] !== game.bgColor)
-            || (game.gameMatrix[this.bodyCoor[2].x][this.bodyCoor[2].y] !== game.bgColor)
-            || (game.gameMatrix[this.bodyCoor[3].x][this.bodyCoor[3].y] !== game.bgColor)){
-            game.state.updateMatrix(this,game);
+        for(let i=0; i<4;i++){
+            if(game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y + 1] !== game.bgColor){
+                game.state.updateMatrix(this,game);
+                break;
+            }
         }
     
     }
