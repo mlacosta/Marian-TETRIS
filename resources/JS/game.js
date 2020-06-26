@@ -20,6 +20,12 @@ export class State {
                 game.setGameMatrix(coordinates.x,coordinates.y + 2,block.color);
                 game.setGameMatrix(coordinates.x,coordinates.y + 3,block.color);
                 break;
+            case('stick_h'):
+                game.setGameMatrix(coordinates.x,coordinates.y, block.color);
+                game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
+                game.setGameMatrix(coordinates.x + 2,coordinates.y,block.color);
+                game.setGameMatrix(coordinates.x + 3,coordinates.y,block.color);
+                break;
         }
         
 

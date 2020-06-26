@@ -202,8 +202,78 @@ class Stick extends Block{
 
 }
 
+class Stick_H extends Block{
+    constructor(params){
+        super(params);
+        this.position = {
+            x:Math.floor(Math.random()*17)*this.gameUnit,
+            y:0
+        }
+        this.type = 'stick_h';
+    }
+
+    draw (context){
+        context.fillStyle = this.color;
+        context.fillRect(
+                        this.position.x,
+                        this.position.y,
+                        this.gameUnit*4,
+                        this.gameUnit*1
+                        );
+    }
+
+
+    getBorders(){
+        let x1 = Math.floor(this.position.x / this.gameUnit);
+        let x2 = x1 + 3;
+        let y1 = Math.floor(this.position.y / this.gameUnit);
+        let y2 = y1;
+
+        return {x1,x2,y1,y2};
+    }
+
+    collisionDetection = (game)=>{
+
+        let highCoordinates = this.getCoordinates();
+        
+        if (game.gameMatrix[highCoordinates.x][0] !== game.bgColor){
+            game.state.gameOver(game);
+            
+        }
+        
+        if (this.position.y + 1 >= this.gameHeigth){ //collision with the ground
+            this.position.y = this.gameHeigth;
+            game.state.updateMatrix(this,game);
+        }
+    
+
+        if((game.gameMatrix[highCoordinates.x][highCoordinates.y + 1] !== game.bgColor)
+            ||(game.gameMatrix[highCoordinates.x + 1][highCoordinates.y + 1] !== game.bgColor)
+            ||(game.gameMatrix[highCoordinates.x + 2][highCoordinates.y + 1] !== game.bgColor)
+            ||(game.gameMatrix[highCoordinates.x + 3][highCoordinates.y + 1] !== game.bgColor)){
+            //alert();
+            game.state.updateMatrix(this,game);
+        }
+
+    }
+
+    moveRight(){
+        if (this.enableRight){
+            this.position.x += this.xSpeed;
+            
+        }
+        
+        if (this.position.x + 3*this.gameUnit>= (this.gameWidht)){
+            this.lockRight();
+            this.position.x = this.gameWidht-4*this.gameUnit;
+            
+        } 
+    }
+
+}
+
 export const blockFactory = (params)=>{
-    let choice = Math.floor(Math.random()*2);
+    let choice = Math.floor(Math.random()*3);
 
     switch(choice){
         case 0:
@@ -211,6 +281,9 @@ export const blockFactory = (params)=>{
             break;
         case 1:
             return new Stick(params);
+            break;
+        case 2:
+            return new Stick_H(params);
             break;
     }
     
