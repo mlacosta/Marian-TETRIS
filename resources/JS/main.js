@@ -28,7 +28,7 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 2,
+    gameSpeed: .5,
     maxSpeed: 10,
     bgColor: '#000'
 };

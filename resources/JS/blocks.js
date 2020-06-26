@@ -161,32 +161,47 @@ export class Stick extends Block{
             {x:this.position.x, y:this.position.y  + 2*this.gameUnit},
             {x:this.position.x, y:this.position.y  + 3*this.gameUnit}]
         
-        this.vertical = true;
+        this.orientation = 'down';
 
     }
 
     rotate(){
         
-        if(this.vertical){
-            if(((this.body[0].x + this.gameUnit*3)<this.gameWidht)){
-                this.body = [{x:this.body[0].x,y:this.body[0].y},
-                {x:this.body[0].x + this.gameUnit,y:this.body[0].y },
-                {x:this.body[0].x + this.gameUnit*2,y:this.body[0].y},
-                {x:this.body[0].x + this.gameUnit*3,y:this.body[0].y}];
-                this.vertical = !this.vertical;
-            }
+        let pivot = this.body[1];
 
-        }else{
-            this.body = [{x:this.body[0].x,y:this.body[0].y},
-            {x:this.body[0].x ,y:this.body[0].y + this.gameUnit },
-            {x:this.body[0].x ,y:this.body[0].y + 2*this.gameUnit},
-            {x:this.body[0].x ,y:this.body[0].y + 3*this.gameUnit}];
-            this.vertical = !this.vertical;
+        if (pivot.x === 0){
+
+            pivot.x += this.gameUnit;
+        }
+
+        if (pivot.x === (this.gameWidht-this.gameUnit)){
+
+            pivot.x -= 2*this.gameUnit;
+        }
+
+        if (pivot.x === (this.gameWidht-2*this.gameUnit)){
+
+            pivot.x -= this.gameUnit;
+        }
+
+        switch(this.orientation){
+            case('down'):
+                this.body = [{x:pivot.x - this.gameUnit , y:pivot.y},
+                             pivot,{x:pivot.x + this.gameUnit, y:pivot.y},
+                             {x:pivot.x +2*this.gameUnit ,y:pivot.y}];
+                this.orientation = 'right';
+                break;
+            case('right'):
+                this.body = [{x:pivot.x ,y:pivot.y - this.gameUnit},pivot,
+                                {x:pivot.x ,y:pivot.y + this.gameUnit},
+                                {x:pivot.x ,y:pivot.y + this.gameUnit*2}];
+                this.orientation = 'down';
+                this.unlockLeft()
+                break;
         }
 
     }
-
-}
+}   
 
 export class Lstick extends Block{
     constructor(params,position,color){
@@ -359,7 +374,7 @@ export const blockFactory = (params)=>{
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
 
-    //choice = 4;
+    choice = 1;
 
     switch(choice){
         case 0:
