@@ -402,7 +402,7 @@ export const blockFactory = (params)=>{
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
 
-    choice = 4;
+    //choice = 4;
 
     switch(choice){
         case 0:
