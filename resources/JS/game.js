@@ -21,7 +21,7 @@ export class State {
     }
 
     gameOver(game){
-        //alert('GAME OVER!')
+        alert('GAME OVER!')
         game.generateMatrix();
     }
 

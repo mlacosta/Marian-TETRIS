@@ -58,6 +58,7 @@ document.addEventListener('keydown', (event)=>{
             block.increaseSpeed();
             break;
         case 38:
+            block.rotate();
             break;
     }
 })
@@ -77,9 +78,6 @@ const gameLoop = (timeStamp)=>{
 
     context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
     game.drawMatrix(context);
-
-    //console.log(count);
-    //console.log(game.gameMatrix);
 
     if (debugMode){
         context.fillStyle = '#fff';

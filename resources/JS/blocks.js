@@ -131,10 +131,9 @@ export class Block {
     }
 
     collisionDetection = (game)=>{
-
         for(let i=0; i<4;i++){
-            if(this.body[i].y === 0){
-                if (game.gameMatrix[this.body[0].x] !== game.bgColor){
+            if(this.bodyCoor[i].y < 1){
+                if (game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y] !== game.bgColor){
                     game.state.gameOver(game);
                     break;
                 }
@@ -184,6 +183,29 @@ export class Stick extends Block{
             {x:this.position.x , y:this.position.y + this.gameUnit},
             {x:this.position.x, y:this.position.y  + 2*this.gameUnit},
             {x:this.position.x, y:this.position.y  + 3*this.gameUnit}]
+        
+        this.vertical = true;
+    }
+
+    rotate(){
+        
+        if(this.vertical){
+            if((this.body[0].x + this.gameUnit*3)<this.gameWidht){
+                this.body = [{x:this.body[0].x,y:this.body[0].y},
+                {x:this.body[0].x + this.gameUnit,y:this.body[0].y },
+                {x:this.body[0].x + this.gameUnit*2,y:this.body[0].y},
+                {x:this.body[0].x + this.gameUnit*3,y:this.body[0].y}];
+                this.vertical = !this.vertical;
+            }
+
+        }else{
+            this.body = [{x:this.body[0].x,y:this.body[0].y},
+            {x:this.body[0].x ,y:this.body[0].y + this.gameUnit },
+            {x:this.body[0].x ,y:this.body[0].y + 2*this.gameUnit},
+            {x:this.body[0].x ,y:this.body[0].y + 3*this.gameUnit}];
+            this.vertical = !this.vertical;
+        }
+
     }
 
 }
