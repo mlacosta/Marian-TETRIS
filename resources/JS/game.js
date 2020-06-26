@@ -5,35 +5,13 @@ export class State {
 
     updateMatrix(block,game){
         this.state = 'update matrix';
-        let coordinates = block.getCoordinates();
-
-        switch(block.type){
-            case('block'):
-                game.setGameMatrix(coordinates.x,coordinates.y,block.color);
-                game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
-                game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
-                game.setGameMatrix(coordinates.x + 1,coordinates.y + 1,block.color);
-                break;
-            case('stick'):
-                game.setGameMatrix(coordinates.x,coordinates.y,block.color);
-                game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
-                game.setGameMatrix(coordinates.x,coordinates.y + 2,block.color);
-                game.setGameMatrix(coordinates.x,coordinates.y + 3,block.color);
-                break;
-            case('stick_h'):
-                game.setGameMatrix(coordinates.x,coordinates.y, block.color);
-                game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
-                game.setGameMatrix(coordinates.x + 2,coordinates.y,block.color);
-                game.setGameMatrix(coordinates.x + 3,coordinates.y,block.color);
-                break;
-            case('L-stick'):
-                game.setGameMatrix(coordinates.x,coordinates.y, block.color);
-                game.setGameMatrix(coordinates.x,coordinates.y + 1,block.color);
-                game.setGameMatrix(coordinates.x + 1,coordinates.y,block.color);
-                game.setGameMatrix(coordinates.x + 2,coordinates.y,block.color);
-                break;
-        }
+        let coordinates = block.bodyCoor;
         
+        game.setGameMatrix(coordinates[0].x,coordinates[0].y,block.color);
+        game.setGameMatrix(coordinates[1].x,coordinates[1].y,block.color);
+        game.setGameMatrix(coordinates[2].x ,coordinates[2].y,block.color);
+        game.setGameMatrix(coordinates[3].x ,coordinates[3].y ,block.color);
+
 
 
     }

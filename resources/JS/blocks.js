@@ -16,46 +16,79 @@ export class Block {
         this.enableRight = true;
         this.enableLeft = true;
         this.type = 'block';
+        this.body = [position,
+                     {x:this.position.x + this.gameUnit, y:this.position.y},
+                     {x:this.position.x, y:this.position.y  + this.gameUnit},
+                     {x:this.position.x  + this.gameUnit, y:this.position.y  + this.gameUnit}]
 
+        this.bodyCoor = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}];    
     }
 
-    draw (context){
+    drawUnit(unit,context){
         context.fillStyle = this.color;
         context.fillRect(
-                        this.position.x,
-                        this.position.y,
-                        this.gameUnit*2,
-                        this.gameUnit*2
-                        );
+            unit.x,
+            unit.y,
+            this.gameUnit,
+            this.gameUnit
+            );
+    }
+    draw (context){
+        
+        
+        for(let i = 0; i<4;i++){
+            this.drawUnit(this.body[i],context);
+        }
+
     }
     
     update(game){
-        this.position.y += this.speed;
+     
+
+        for (let i= 0;i<4;i++){
+            this.body[i].y+=this.speed;
+        }
+
+        for (let i = 0; i<4; i++){
+            this.bodyCoor[i].x = Math.floor(this.body[i].x / this.gameUnit);
+            this.bodyCoor[i].y = Math.floor(this.body[i].y / this.gameUnit);
+        }
+
+        console.log(this.body)
 
     }
 
     moveLeft(){
 
-        if (this.enableLeft){
-            this.position.x -= this.xSpeed;
-        }
         
-        if (this.position.x <= 0){
-            this.position.x = 0;
-        } 
+        for (let i= 0;i<4;i++){
+            if (this.body[i].x <= 0){
+                this.lockLeft();
+                this.body[i].x = 0;
+            }
+        }
+
+        if (this.enableLeft){
+            for (let i= 0;i<4;i++){
+                this.body[i].x-=this.gameUnit;
+            }
+        }
+
     }
 
     moveRight(){
-        if (this.enableRight){
-            this.position.x += this.xSpeed;
-            
+        for (let i= 0;i<4;i++){
+            if ((this.body[i].x + 2*this.gameUnit) > this.gameWidht){
+                this.lockRight();
+
+            }
         }
-        
-        if (this.position.x >= (this.gameWidht - 2*this.gameUnit)){
-            this.lockRight();
-            this.position.x = this.gameWidht - 2*this.gameUnit;
-            
-        } 
+
+        if (this.enableRight){
+            for (let i= 0;i<4;i++){
+                this.body[i].x+=this.gameUnit;
+            }
+        }
     }
 
     increaseSpeed(){
@@ -90,26 +123,30 @@ export class Block {
     }
 
     collisionDetection = (game)=>{
-        let lowCoordinates = this.getLowCoordinates();
-        let highCoordinates = this.getCoordinates();
-        
-        if (game.gameMatrix[highCoordinates.x][0] !== game.bgColor){
+
+
+        if (game.gameMatrix[this.body[0].x] !== game.bgColor){
             game.state.gameOver(game);
             
         }
-        
-        if (this.position.y + this.gameUnit*2 >= this.gameHeigth){ //collision with the ground
-            this.position.y = this.gameHeigth - this.gameUnit*2;
-            game.state.updateMatrix(this,game);
-        }
-    
 
-        if((game.gameMatrix[lowCoordinates.x][lowCoordinates.y] !== game.bgColor) 
-            || (game.gameMatrix[lowCoordinates.x+1][lowCoordinates.y] !== game.bgColor)){
+        
+        if (((this.body[0].y + this.gameUnit )
+            ||(this.body[1].y + this.gameUnit)
+            ||(this.body[2].y + this.gameUnit)
+            ||(this.body[3].y + this.gameUnit)) >= this.gameHeigth - this.gameUnit){ //collision with the ground
+            game.state.updateMatrix(this,game);
+            
+        }
+    
+        
+        if((game.gameMatrix[this.bodyCoor[0].x][this.bodyCoor[0].y] !== game.bgColor) 
+            || (game.gameMatrix[this.bodyCoor[1].x][this.bodyCoor[1].y] !== game.bgColor)
+            || (game.gameMatrix[this.bodyCoor[2].x][this.bodyCoor[2].y] !== game.bgColor)
+            || (game.gameMatrix[this.bodyCoor[3].x][this.bodyCoor[3].y] !== game.bgColor)){
             game.state.updateMatrix(this,game);
         }
     
-        //console.log(lowCoordinates);
 
     }
 
@@ -135,66 +172,6 @@ export class Stick extends Block{
     constructor(params,position,color){
         super(params,position,color);
         this.type = 'stick';
-    }
-
-    draw (context){
-        context.fillStyle = this.color;
-        context.fillRect(
-                        this.position.x,
-                        this.position.y,
-                        this.gameUnit*1,
-                        this.gameUnit*4
-                        );
-    }
-
-    getLowCoordinates(){
-        let unitX = Math.floor(this.position.x / this.gameUnit);
-        let unitY = Math.floor((this.position.y + 4*this.gameUnit)/ this.gameUnit);
-    
-        return {x: unitX , y: unitY};
-    }
-
-    getBorders(){
-        let x1 = Math.floor(this.position.x / this.gameUnit);
-        let x2 = x1;
-        let y1 = Math.floor(this.position.y / this.gameUnit);
-        let y2 = y1 + 3;
-
-        return {x1,x2,y1,y2};
-    }
-
-    collisionDetection = (game)=>{
-        let lowCoordinates = this.getLowCoordinates();
-        let highCoordinates = this.getCoordinates();
-        
-        if (game.gameMatrix[highCoordinates.x][0] !== game.bgColor){
-            game.state.gameOver(game);
-            
-        }
-        
-        if (this.position.y + this.gameUnit*3 >= this.gameHeigth){ //collision with the ground
-            this.position.y = this.gameHeigth - this.gameUnit*4;
-            game.state.updateMatrix(this,game);
-        }
-    
-
-        if((game.gameMatrix[lowCoordinates.x][lowCoordinates.y] !== game.bgColor)){
-            game.state.updateMatrix(this,game);
-        }
-
-    }
-
-    moveRight(){
-        if (this.enableRight){
-            this.position.x += this.xSpeed;
-            
-        }
-        
-        if (this.position.x >= (this.gameWidht)){
-            this.lockRight();
-            this.position.x = this.gameWidht-this.gameUnit;
-            
-        } 
     }
 
 }
@@ -353,8 +330,13 @@ export const blockFactory = (params, stick_h = false)=>{
     let choice = Math.floor(Math.random()*4);
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
+    position =  {
+        x:Math.floor(Math.random()*19)*params.gameUnit,
+        y:0
+    };
+    return new Block(params,position,color);
 
-    switch(choice){
+    /*switch(choice){
         case 0:
             position =  {
                 x:Math.floor(Math.random()*19)*params.gameUnit,
@@ -379,6 +361,6 @@ export const blockFactory = (params, stick_h = false)=>{
                 y:0
             };
             return new Lstick(params,position,color);
-    }
+    }*/
     
 }
