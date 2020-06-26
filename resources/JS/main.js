@@ -41,9 +41,7 @@ let lastTime = 0;
 
 let frameCount = 0;
 
-
 //input handler------------------------------
-let position;
 
 document.addEventListener('keydown', (event)=>{
 
