@@ -197,12 +197,42 @@ export class Lstick extends Block{
             {x:this.position.x + this.gameUnit, y:this.position.y  + this.gameUnit},
             {x:this.position.x + 2*this.gameUnit, y:this.position.y  + this.gameUnit}]
         
-        this.vertical = true;
+        this.orientation = 'right';
 
     }
 
     rotate(){
-        
+
+        let pivot = this.body[1];
+
+        switch(this.orientation){
+            case('right'):
+                this.body = [{x:pivot.x + this.gameUnit ,y:pivot.y},
+                             pivot,{x:pivot.x,y:pivot.y+this.gameUnit},
+                             {x:pivot.x,y:pivot.y+2*this.gameUnit}];
+                this.orientation = 'down';
+                break;
+            case('down'):
+                this.body = [{x:pivot.x,y:pivot.y + this.gameUnit},pivot,
+                                {x:pivot.x-this.gameUnit,y:pivot.y},
+                                {x:pivot.x-this.gameUnit*2,y:pivot.y}];
+                this.orientation = 'left';
+                break;
+            case('left'):
+                this.body = [{x:pivot.x - this.gameUnit,y:pivot.y + 2*this.gameUnit},pivot,
+                                {x:pivot.x,y:pivot.y + this.gameUnit},
+                                {x:pivot.x,y:pivot.y + 2*this.gameUnit}];
+                this.orientation = 'up';
+                break;
+            case('up'):
+                    pivot = this.body[2]; 
+                    this.body = [pivot,
+                        {x:pivot.x , y:pivot.y + this.gameUnit},
+                        {x:pivot.x + this.gameUnit, y:pivot.y  + this.gameUnit},
+                        {x:pivot.x + 2*this.gameUnit, y:pivot.y  + this.gameUnit}]
+                this.orientation = 'right';
+                break;
+        }
 
     }
     
