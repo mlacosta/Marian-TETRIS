@@ -3,8 +3,8 @@ const colors = ['#fcba03','#fc3103','#f8fc03','#adfc03',
                 '#ce03fc','#fc039d','#800040'];
 
 export class Block {
-    constructor (params){
-        this.color = colors[Math.floor(Math.random()*colors.length)];
+    constructor (params,position,color){
+        this.color = color;
         this.gameWidht = params.gameWidht;
         this.gameHeigth = params.gameHeigth;
         this.gameUnit = params.gameUnit;
@@ -12,10 +12,7 @@ export class Block {
         this.defaultSpeed = params.speed;
         this.maxSpeed = params.maxSpeed;
         this.xSpeed = this.gameUnit;
-        this.position = {
-            x:Math.floor(Math.random()*19)*this.gameUnit,
-            y:0
-        }
+        this.position = position;
         this.enableRight = true;
         this.enableLeft = true;
         this.type = 'block';
@@ -134,9 +131,9 @@ export class Block {
 
 }
 
-class Stick extends Block{
-    constructor(params){
-        super(params);
+export class Stick extends Block{
+    constructor(params,position,color){
+        super(params,position,color);
         this.type = 'stick';
     }
 
@@ -202,13 +199,9 @@ class Stick extends Block{
 
 }
 
-class Stick_H extends Block{
-    constructor(params){
-        super(params);
-        this.position = {
-            x:Math.floor(Math.random()*17)*this.gameUnit,
-            y:0
-        }
+export class Stick_H extends Block{
+    constructor(params,position,color){
+        super(params,position,color);
         this.type = 'stick_h';
     }
 
@@ -273,8 +266,8 @@ class Stick_H extends Block{
 }
 
 class Lstick extends Block{
-    constructor(params){
-        super(params);
+    constructor(params,position,color){
+        super(params,position,color);
         this.type = 'L-stick';
         this.position = {
             x:Math.floor(Math.random()*18)*this.gameUnit,
@@ -356,22 +349,36 @@ class Lstick extends Block{
 
 }
 
-export const blockFactory = (params)=>{
+export const blockFactory = (params, stick_h = false)=>{
     let choice = Math.floor(Math.random()*4);
+    let color = colors[Math.floor(Math.random()*colors.length)];
+    let position;
 
     switch(choice){
         case 0:
-            return new Block(params);
-            break;
+            position =  {
+                x:Math.floor(Math.random()*19)*params.gameUnit,
+                y:0
+            };
+            return new Block(params,position,color);
         case 1:
-            return new Stick(params);
-            break;
+            position = {
+                x:Math.floor(Math.random()*19)*params.gameUnit,
+                y:0
+            };
+            return new Stick(params,position,color);
         case 2:
-            return new Stick_H(params);
-            break;
+            position = {
+                x:Math.floor(Math.random()*17)*params.gameUnit,
+                y:0
+            };
+            return new Stick_H(params,position,color);
         case 3:
-            return new Lstick(params);
-            break;
+            position = {
+                x:Math.floor(Math.random()*18)*params.gameUnit,
+                y:0
+            };
+            return new Lstick(params,position,color);
     }
     
 }

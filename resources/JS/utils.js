@@ -30,3 +30,7 @@ export const inputHandler = (block) =>{
 export class Debug{
     
 }
+
+export const canRotate = (game,position)=>{
+    
+}

@@ -12,7 +12,7 @@
 **
 */
 
-import {Block,blockFactory} from './blocks.js';
+import {Block,blockFactory,Stick,Stick_H} from './blocks.js';
 import {Game} from './game.js';
 import {inputHandler} from './utils.js';
 
@@ -28,7 +28,7 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 3,
+    gameSpeed: 1,
     maxSpeed: 10,
     bgColor: '#000'
 };
@@ -41,7 +41,10 @@ let lastTime = 0;
 
 let frameCount = 0;
 
+
 //input handler------------------------------
+let position;
+
 document.addEventListener('keydown', (event)=>{
 
     switch(event.keyCode){
@@ -54,6 +57,24 @@ document.addEventListener('keydown', (event)=>{
         case 40:
             block.increaseSpeed();
             break;
+        case 38:
+            position = block.position;
+            
+            if (block.type === 'stick'){
+               if(position.x <= game.gameWidht - game.gameUnit*4){
+                block = new Stick_H(game,position,block.color);
+               }else{
+                block = new Stick_H(game,{x:game.gameWidht - game.gameUnit*4, y:position.y},
+                    block.color);  
+               } 
+
+               break;
+            }
+            if (block.type === 'stick_h'){
+                block = new Stick(game,position,block.color);
+                break;
+             }
+
     }
 })
 
