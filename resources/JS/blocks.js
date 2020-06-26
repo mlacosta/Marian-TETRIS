@@ -297,6 +297,7 @@ export class Tstick extends Block{
                 break;
             case('down'):
                 pivot.y+= this.gameUnit;
+
                 this.body = [{x:pivot.x - this.gameUnit, y:pivot.y},
                     {x:pivot.x, y:pivot.y - this.gameUnit},
                     pivot,
@@ -356,10 +357,14 @@ export class Rstick extends Block{
                 break;
             case('down'):
                 pivot.y+= this.gameUnit;
+                if (pivot.x === this.gameUnit){
+                    pivot.x += this.gameUnit;
+                }
                 this.body = [{x:pivot.x,y:pivot.y - this.gameUnit},pivot,
                                 {x:pivot.x-this.gameUnit,y:pivot.y},
                                 {x:pivot.x-2*this.gameUnit,y:pivot.y}];
                 this.orientation = 'left';
+                this.unlockLeft();
                 break;
             case('left'):
                 pivot = this.body[2];
@@ -368,9 +373,13 @@ export class Rstick extends Block{
                             pivot,
                             {x:pivot.x, y:pivot.y - this.gameUnit}];
                 this.orientation = 'up';
-            
+                this.unlockLeft();
                 break;
             case('up'):
+                
+                if (pivot.x === this.gameWidht - this.gameUnit*2){
+                    pivot.x -= this.gameUnit;
+                }
                 
                 this.body = [{x:pivot.x,y:pivot.y + this.gameUnit},
                             pivot,{x:pivot.x +this.gameUnit,y:pivot.y},
@@ -390,7 +399,7 @@ export const blockFactory = (params)=>{
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
 
-    choice = 2;
+    choice = 3;
 
     switch(choice){
         case 0:
