@@ -88,7 +88,8 @@ const gameLoop = (timeStamp)=>{
         context.fillText(`Color: ${block.color}`, 300, 100);
         context.fillText(`Right Crash: ${!block.enableRight}`, 300, 115);
         context.fillText(`Left Crash: ${!block.enableLeft}`, 300, 130);
-        context.fillText(`Speed: ${params.gameSpeed}`, 300, 145);
+        context.fillText(`Orientation: ${block.orientation}`, 300, 145);
+        context.fillText(`Speed: ${params.gameSpeed}`, 300, 160);
     }
 
     switch (game.state.state){

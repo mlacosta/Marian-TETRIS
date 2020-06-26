@@ -21,7 +21,8 @@ export class Block {
                      {x:this.position.x, y:this.position.y  + this.gameUnit},
                      {x:this.position.x  + this.gameUnit, y:this.position.y  + this.gameUnit}]
 
-        this.bodyCoor = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}];    
+        this.bodyCoor = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}]; 
+        this.orientation = 'None'   
     }
 
     drawUnit(unit,context){
@@ -228,10 +229,17 @@ export class Lstick extends Block{
                 this.orientation = 'down';
                 break;
             case('down'):
+                if (pivot.x === this.gameUnit){
+                    pivot.x += this.gameUnit;
+                }
+                if (pivot.x === 0){
+                    pivot.x += 2*this.gameUnit;
+                }
                 this.body = [{x:pivot.x,y:pivot.y + this.gameUnit},pivot,
                                 {x:pivot.x-this.gameUnit,y:pivot.y},
                                 {x:pivot.x-this.gameUnit*2,y:pivot.y}];
                 this.orientation = 'left';
+               
                 break;
             case('left'):
                 this.body = [{x:pivot.x - this.gameUnit,y:pivot.y + 2*this.gameUnit},pivot,
@@ -241,10 +249,18 @@ export class Lstick extends Block{
                 break;
             case('up'):
                     pivot = this.body[2]; 
+                    if (pivot.x === (this.gameWidht - this.gameUnit)){
+                        pivot.x -= 2*this.gameUnit;
+                    }
+                    if (pivot.x === (this.gameWidht - 2*this.gameUnit)){
+                        pivot.x -= this.gameUnit;
+                    }
+
                     this.body = [pivot,
                         {x:pivot.x , y:pivot.y + this.gameUnit},
                         {x:pivot.x + this.gameUnit, y:pivot.y  + this.gameUnit},
                         {x:pivot.x + 2*this.gameUnit, y:pivot.y  + this.gameUnit}]
+                this.unlockLeft();
                 this.orientation = 'right';
                 break;
         }
@@ -374,7 +390,7 @@ export const blockFactory = (params)=>{
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
 
-    choice = 1;
+    choice = 2;
 
     switch(choice){
         case 0:
