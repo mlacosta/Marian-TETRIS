@@ -306,6 +306,9 @@ export class Tstick extends Block{
                 break;
             case('left'):
                 pivot.y+= 2*this.gameUnit;    
+                if(pivot.x === this.gameWidht - this.gameUnit){
+                    pivot.x-= this.gameUnit;
+                }
                 this.body = [{x:pivot.x  + this.gameUnit, y:pivot.y},
                     pivot,
                     {x:pivot.x - this.gameUnit, y:pivot.y },
@@ -399,7 +402,7 @@ export const blockFactory = (params)=>{
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
 
-    choice = 3;
+    choice = 4;
 
     switch(choice){
         case 0:
