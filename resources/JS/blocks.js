@@ -275,39 +275,36 @@ export const blockFactory = (params, stick_h = false)=>{
     let choice = Math.floor(Math.random()*4);
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
-    position =  {
-        x:Math.floor(Math.random()*19)*params.gameUnit,
-        y:0
-    };
+
 
     switch(choice){
         case 0:
             position =  {
-                x:Math.floor(Math.random()*19)*params.gameUnit,
+                x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-1))*params.gameUnit,
                 y:0
             };
             return new Block(params,position,color);
         case 1:
-            position = {
-                x:Math.floor(Math.random()*19)*params.gameUnit,
+            position =  {
+                x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-1))*params.gameUnit,
                 y:0
             };
             return new Stick(params,position,color);
         case 2:
-            position = {
-                x:Math.floor(Math.random()*18)*params.gameUnit,
+            position =  {
+                x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-2))*params.gameUnit,
                 y:0
             };
             return new Lstick(params,position,color);
         case 3:
-            position = {
-                x:Math.floor(Math.random()*18)*params.gameUnit,
+            position =  {
+                x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-2))*params.gameUnit,
                 y:0
             };
             return new Rstick(params,position,color);
         case 4:
-            position = {
-                x:Math.floor(Math.random()*18)*params.gameUnit,
+            position =  {
+                x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-2))*params.gameUnit,
                 y:0
             };
             return new Tstick(params,position,color);
