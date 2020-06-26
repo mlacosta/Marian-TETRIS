@@ -73,25 +73,46 @@ export class Game{
     }
 
     checkMovement(block){
-        let coor = block.getBorders();
+        let count = 0;
 
-        if ((coor.x1-1)>0){
-            if((this.gameMatrix[coor.x1-1][coor.y1] !== this.bgColor)||(this.gameMatrix[coor.x1-1][coor.y2] !== this.bgColor)){
-                block.lockLeft();
-            }
-            else{
+        for(let i=0;i<4;i++){
+            if(block.bodyCoor[i].x-1>0){
+                if(this.gameMatrix[block.bodyCoor[i].x-1][block.bodyCoor[i].y] !== this.bgColor){
+                    block.lockLeft();
+                    break;
+                }else{
+                    count++;
+                }
+
+             }
+
+             if(count === 4){
                 block.unlockLeft();
             }
+            
         }
 
-        if ((coor.x2+1)<this.gameMatrix.length){
-            if((this.gameMatrix[coor.x2+1][coor.y1] !== this.bgColor)||(this.gameMatrix[coor.x2+1][coor.y2] !== this.bgColor)){
-                block.lockRight();
-            }
-            else{
+        count = 0;
+
+        for(let i=0;i<4;i++){
+            if(block.bodyCoor[i].x+1<this.gameWidht / this.gameUnit){
+                if(this.gameMatrix[block.bodyCoor[i].x+1][block.bodyCoor[i].y] !== this.bgColor){
+                    block.lockRight();
+                    break;
+                }else{
+                    count++;
+                }
+
+             }
+
+             if(count === 4){
                 block.unlockRight();
             }
+            
         }
+
+
+
     }
 
     checkDestruction(){

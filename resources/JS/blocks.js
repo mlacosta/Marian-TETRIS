@@ -58,12 +58,14 @@ export class Block {
 
     moveLeft(){
 
-        for (let i= 0;i<4;i++){
-            if (this.body[i].x - this.gameUnit< 0){
-                this.lockLeft();
-                break;
-            }else{
-                this.unlockLeft();
+        if (this.enableLeft){
+            for (let i= 0;i<4;i++){
+                if (this.body[i].x - this.gameUnit< 0){
+                    this.lockLeft();
+                    break;
+                }else{
+                    this.unlockLeft();
+                }
             }
         }
 
@@ -76,14 +78,17 @@ export class Block {
     }
 
     moveRight(){
-        for (let i= 0;i<4;i++){
-            if ((this.body[i].x + 2*this.gameUnit) > this.gameWidht){
-                this.lockRight();
-                break;
+        this.unlockLeft();
+        if(this.enableRight){
+            for (let i= 0;i<4;i++){
+                if ((this.body[i].x + 2*this.gameUnit) > this.gameWidht){
+                    this.lockRight();
+                    break;
 
-            }
-            else{
-                this.unlockRight();
+                }
+                else{
+                    this.unlockRight();
+                }
             }
         }
 

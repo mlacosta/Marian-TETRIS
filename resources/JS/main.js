@@ -28,7 +28,7 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 5,
+    gameSpeed: 3,
     maxSpeed: 10,
     bgColor: '#000'
 };
@@ -58,23 +58,7 @@ document.addEventListener('keydown', (event)=>{
             block.increaseSpeed();
             break;
         case 38:
-            position = block.position;
-            
-            if (block.type === 'stick'){
-               if(position.x <= game.gameWidht - game.gameUnit*4){
-                block = new Stick_H(game,position,block.color);
-               }else{
-                block = new Stick_H(game,{x:game.gameWidht - game.gameUnit*4, y:position.y},
-                    block.color);  
-               } 
-
-               break;
-            }
-            if (block.type === 'stick_h'){
-                block = new Stick(game,position,block.color);
-                break;
-             }
-
+            break;
     }
 })
 
@@ -120,8 +104,9 @@ const gameLoop = (timeStamp)=>{
             block.draw(context);
             
             block.update();
+            game.checkMovement(block);
             block.collisionDetection(game);
-            //game.checkMovement(block);
+            
 
             break;
 
