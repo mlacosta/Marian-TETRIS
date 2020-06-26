@@ -267,19 +267,55 @@ export class Rstick extends Block{
             {x:this.position.x + this.gameUnit, y:this.position.y },
             {x:this.position.x + 2*this.gameUnit, y:this.position.y}]
         
-        this.vertical = true;
+        this.orientation = 'right';
 
     }
 
     rotate(){
+
+        let pivot = this.body[1];
     
+        switch(this.orientation){
+            case('right'):
+                pivot.x+=this.gameUnit;
+                this.body = [{x:pivot.x -this.gameUnit  ,y:pivot.y},
+                             pivot,{x:pivot.x,y:pivot.y+this.gameUnit},
+                             {x:pivot.x,y:pivot.y+2*this.gameUnit}];
+                this.orientation = 'down';
+                break;
+            case('down'):
+                pivot.y+= this.gameUnit;
+                this.body = [{x:pivot.x,y:pivot.y - this.gameUnit},pivot,
+                                {x:pivot.x-this.gameUnit,y:pivot.y},
+                                {x:pivot.x-2*this.gameUnit,y:pivot.y}];
+                this.orientation = 'left';
+                break;
+            case('left'):
+                pivot = this.body[2];
+                this.body = [{x:pivot.x + this.gameUnit, y:pivot.y + this.gameUnit},
+                            {x:pivot.x, y:pivot.y + this.gameUnit},
+                            pivot,
+                            {x:pivot.x, y:pivot.y - this.gameUnit}];
+                this.orientation = 'up';
+            
+                break;
+            case('up'):
+                
+                this.body = [{x:pivot.x,y:pivot.y + this.gameUnit},
+                            pivot,{x:pivot.x +this.gameUnit,y:pivot.y},
+                            {x:pivot.x +2*this.gameUnit,y:pivot.y}];
+
+                this.orientation = 'right';
+                break;
+                
+        }
 
     }
     
 }
 
 export const blockFactory = (params)=>{
-    let choice = Math.floor(Math.random()*4);
+    let choice = Math.floor(Math.random()*5);
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
 
