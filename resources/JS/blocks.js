@@ -107,29 +107,6 @@ export class Block {
         this.speed = this.defaultSpeed;
     }
 
-    getCoordinates(){
-        let unitX = Math.floor(this.position.x / this.gameUnit);
-        let unitY = Math.floor(this.position.y / this.gameUnit);
-        
-        return {x: unitX , y: unitY};
-    }
-
-    getLowCoordinates(){
-        let unitX = Math.floor(this.position.x / this.gameUnit);
-        let unitY = Math.floor((this.position.y + 2*this.gameUnit)/ this.gameUnit);
-    
-        return {x: unitX , y: unitY};
-    }
-
-    getBorders(){
-        let x1 = Math.floor(this.position.x / this.gameUnit);
-        let x2 = x1 + 1;
-        let y1 = Math.floor(this.position.y / this.gameUnit);
-        let y2 = y1 + 1;
-
-        return {x1,x2,y1,y2};
-    }
-
     collisionDetection = (game)=>{
         for(let i=0; i<4;i++){
             if(this.bodyCoor[i].y < 1){
@@ -265,17 +242,16 @@ export class Rstick extends Block{
     }
 
     rotate(){
-        
+    
 
     }
     
 }
 
-export const blockFactory = (params, stick_h = false)=>{
+export const blockFactory = (params)=>{
     let choice = Math.floor(Math.random()*4);
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
-
 
     switch(choice){
         case 0:

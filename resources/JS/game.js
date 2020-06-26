@@ -6,14 +6,11 @@ export class State {
     updateMatrix(block,game){
         this.state = 'update matrix';
         let coordinates = block.bodyCoor;
+
+        for(let i=0;i<4;i++){
+            game.setGameMatrix(coordinates[i].x,coordinates[i].y,block.color);
+        }
         
-        game.setGameMatrix(coordinates[0].x,coordinates[0].y,block.color);
-        game.setGameMatrix(coordinates[1].x,coordinates[1].y,block.color);
-        game.setGameMatrix(coordinates[2].x ,coordinates[2].y,block.color);
-        game.setGameMatrix(coordinates[3].x ,coordinates[3].y ,block.color);
-
-
-
     }
 
     newBlock(){
@@ -37,7 +34,6 @@ export class Game{
         this.gameMatrix = [];
         this.state = new State();
         this.bgColor = params.bgColor;
-
         this.generateMatrix();
 
     }
@@ -89,7 +85,6 @@ export class Game{
              if(count === 4){
                 block.unlockLeft();
             }
-            
         }
 
         count = 0;
@@ -102,17 +97,12 @@ export class Game{
                 }else{
                     count++;
                 }
-
              }
 
              if(count === 4){
                 block.unlockRight();
             }
-            
         }
-
-
-
     }
 
     checkDestruction(){

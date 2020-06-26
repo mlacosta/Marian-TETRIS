@@ -81,7 +81,6 @@ const gameLoop = (timeStamp)=>{
 
     if (debugMode){
         context.fillStyle = '#fff';
-        //context.fillText('Debug Mode', 300, 10);
         let axis = block.bodyCoor;
         context.fillText(`Type: ${block.type}`, 300, 25);
         context.fillText(`X0: ${axis[0].x}  Y0: ${axis[0].y}`, 300, 40);
@@ -94,20 +93,13 @@ const gameLoop = (timeStamp)=>{
         context.fillText(`Speed: ${params.gameSpeed}`, 300, 145);
     }
 
-
-    //console.log(game.state.state)
     switch (game.state.state){
         case 'new block':
-            
             block.draw(context);
-            
             block.update();
             game.checkMovement(block);
             block.collisionDetection(game);
-            
-
             break;
-
         case 'update matrix':
             game.checkDestruction();
             game.state.newBlock();
@@ -116,11 +108,6 @@ const gameLoop = (timeStamp)=>{
         
     }
 
-    /*frameCount ++;
-
-    if (frameCount === 119){
-        return;
-    }*/
     requestAnimationFrame(gameLoop)
     
 }
