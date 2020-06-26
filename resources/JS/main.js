@@ -28,7 +28,7 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 3,
+    gameSpeed: 5,
     maxSpeed: 10,
     bgColor: '#000'
 };
@@ -100,30 +100,33 @@ const gameLoop = (timeStamp)=>{
     if (debugMode){
         context.fillStyle = '#fff';
         //context.fillText('Debug Mode', 300, 10);
-        let axis = block.getCoordinates();
+        let axis = block.bodyCoor;
         context.fillText(`Type: ${block.type}`, 300, 25);
-        context.fillText(`X: ${axis.x}`, 300, 40);
-        context.fillText(`Y: ${axis.y}`, 300, 55);
-        context.fillText(`Color: ${block.color}`, 300, 70);
-        context.fillText(`Right Crash: ${!block.enableRight}`, 300, 85);
-        context.fillText(`Left Crash: ${!block.enableLeft}`, 300, 100);
-        context.fillText(`Speed: ${params.gameSpeed}`, 300, 115);
+        context.fillText(`X0: ${axis[0].x}  Y0: ${axis[0].y}`, 300, 40);
+        context.fillText(`X1: ${axis[1].x}  Y1: ${axis[1].y}`, 300, 55);
+        context.fillText(`X2: ${axis[2].x}  Y2: ${axis[2].y}`, 300, 70);
+        context.fillText(`X3: ${axis[3].x}  Y3: ${axis[3].y}`, 300, 85);
+        context.fillText(`Color: ${block.color}`, 300, 100);
+        context.fillText(`Right Crash: ${!block.enableRight}`, 300, 115);
+        context.fillText(`Left Crash: ${!block.enableLeft}`, 300, 130);
+        context.fillText(`Speed: ${params.gameSpeed}`, 300, 145);
     }
 
 
     //console.log(game.state.state)
     switch (game.state.state){
         case 'new block':
-            block.collisionDetection(game);
-            block.update(game);
-            game.checkMovement(block);
             block.draw(context);
+            block.update();
+            block.collisionDetection(game);
+            //game.checkMovement(block);
+
             break;
 
         case 'update matrix':
             game.checkDestruction();
             game.state.newBlock();
-            block = blockFactory(game);
+            block = blockFactory(params);
             break;
         
     }
