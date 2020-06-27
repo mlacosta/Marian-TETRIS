@@ -109,6 +109,9 @@ export class Block {
     }
 
     collisionDetection = (game)=>{
+        let groundSound = new Audio('./resources/sounds/ground.wav');
+        groundSound.volume = 0.3;
+        
         for(let i=0; i<4;i++){
             if((this.bodyCoor[i].y <= 1)&&(this.bodyCoor[i].y >= 0)){
                 if (game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y] !== game.bgColor){
@@ -121,6 +124,7 @@ export class Block {
         for(let i=0; i<4;i++){
             if(this.bodyCoor[i].y + 1 === (this.gameHeigth / this.gameUnit)){
                 game.state.updateMatrix(this,game);
+                groundSound.play();
                 break;
             }
         }
@@ -129,6 +133,7 @@ export class Block {
         for(let i=0; i<4;i++){
             if(game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y + 1] !== game.bgColor){
                 game.state.updateMatrix(this,game);
+                groundSound.play();
                 break;
             }
         }

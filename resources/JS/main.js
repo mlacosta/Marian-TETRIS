@@ -16,6 +16,7 @@ import {Block,blockFactory} from './blocks.js';
 import {Game} from './game.js';
 import {inputHandler} from './utils.js';
 
+
 let playfield = document.getElementById('playfield');
 let context = playfield.getContext('2d');
 let debugMode = true;
@@ -51,21 +52,36 @@ let lastTime = 0;
 let frameCount = 0;
 
 //input handler------------------------------
+export let increaseSound = new Audio('./resources/sounds/increase.wav');
+increaseSound.volume = 0.8;
 
 document.addEventListener('keydown', (event)=>{
+    let moveSound = new Audio('./resources/sounds/move.wav');
+    moveSound.volume = 0.3;
+
+
+
 
     switch(event.keyCode){
         case 37:
             block.moveLeft();
+            increaseSound.pause();
+            moveSound.play();
             break;
         case 39:
             block.moveRight();
+            increaseSound.pause();
+            moveSound.play();
             break;
         case 40:
+
+            increaseSound.play();
             block.increaseSpeed();
             break;
         case 38:
             block.rotate();
+            increaseSound.pause();
+            moveSound.play();
             break;
     }
 })
@@ -74,7 +90,10 @@ document.addEventListener('keyup', (event)=>{
 
     switch(event.keyCode){
         case 40:
+            
             block.restoreSpeed();
+            increaseSound.pause();
+            increaseSound.currentTime = 0
             break;
     }
 })

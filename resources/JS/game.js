@@ -1,3 +1,6 @@
+import {increaseSound} from './main.js' ;
+let destSound = new Audio('./resources/sounds/destruction.wav')
+
 export class State {
     constructor(){
         this.state = 'new block';
@@ -18,7 +21,12 @@ export class State {
     }
 
     gameOver(game){
-        //alert('GAME OVER!')
+        increaseSound.pause();
+        alert('GAME OVER!')
+        let gameOverSound = new Audio('./resources/sounds/gameOver.wav');
+        gameOverSound.play();
+
+        
         game.level = 0;
         game.score = 0;
         game.generateMatrix();
@@ -157,6 +165,8 @@ export class Game{
             this.gameMatrix[x].splice(row,1);
             this.gameMatrix[x].unshift(this.bgColor);
         }
+
+        destSound.play();
     }
     
 }
