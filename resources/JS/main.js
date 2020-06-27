@@ -128,7 +128,7 @@ const gameLoop = (timeStamp)=>{
             context.fillText(`Right Crash: ${!block.enableRight}`, GAME_WIDTH*.70, 115);
             context.fillText(`Left Crash: ${!block.enableLeft}`, GAME_WIDTH*.70, 130);
             context.fillText(`Orientation: ${block.orientation}`, GAME_WIDTH*.70, 145);
-            context.fillText(`Speed: ${params.gameSpeed}`, GAME_WIDTH*.70, 160);
+            context.fillText(`Speed: ${block.speed}`, GAME_WIDTH*.70, 160);
     
             context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 25);
             context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 40);
@@ -149,6 +149,11 @@ const gameLoop = (timeStamp)=>{
                 params.gameSpeed = game.level/2;
                 block = blockFactory(params);
                 break;
+            case 'game over':{
+                params.gameSpeed = 0.5;
+                block = blockFactory(params);
+                game.state.newBlock();
+            }
             
         }
     }

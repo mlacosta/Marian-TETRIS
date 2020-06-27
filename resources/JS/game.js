@@ -22,6 +22,7 @@ export class State {
     }
 
     gameOver(game){
+        this.state = 'game over';
         increaseSound.pause();
         alert(`GAME OVER! \n\nYOUR SCORE: ${game.score}`);
         let gameOverSound = new Audio('./resources/sounds/gameOver.wav');
