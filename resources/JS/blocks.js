@@ -23,6 +23,8 @@ export class Block {
 
         this.bodyCoor = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}]; 
         this.orientation = 'None'   
+        this.bonusEnable = false;
+        this.bonus = 0;
     }
 
     drawUnit(unit,context){
@@ -54,6 +56,9 @@ export class Block {
             this.bodyCoor[i].y = Math.floor(this.body[i].y / this.gameUnit);
         }
 
+        if(this.bonusEnable){
+            this.bonus+= this.speed;
+        }
 
     }
 
@@ -101,11 +106,17 @@ export class Block {
     }
 
     increaseSpeed(){
+        this.bonusEnable = true;
         this.speed = 15;
     }
 
     restoreSpeed(){
+        this.bonusEnable = false;
         this.speed = this.defaultSpeed;
+    }
+
+    addBonus(){
+        return Math.floor(this.bonus/this.gameUnit);
     }
 
     collisionDetection = (game)=>{
@@ -115,6 +126,7 @@ export class Block {
         for(let i=0; i<4;i++){
             if((this.bodyCoor[i].y <= 1)&&(this.bodyCoor[i].y >= 0)){
                 if (game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y] !== game.bgColor){
+                    game.score += this.addBonus();
                     game.state.gameOver(game);
                     break;
                 }
@@ -123,6 +135,7 @@ export class Block {
 
         for(let i=0; i<4;i++){
             if(this.bodyCoor[i].y + 1 === (this.gameHeigth / this.gameUnit)){
+                game.score += this.addBonus();
                 game.state.updateMatrix(this,game);
                 groundSound.play();
                 break;
@@ -132,6 +145,7 @@ export class Block {
         
         for(let i=0; i<4;i++){
             if(game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y + 1] !== game.bgColor){
+                game.score += this.addBonus();
                 game.state.updateMatrix(this,game);
                 groundSound.play();
                 break;
@@ -434,6 +448,7 @@ export class Zstick extends Block{
                     pivot,
                     {x:pivot.x - this.gameUnit, y:pivot.y },
                     {x:pivot.x - this.gameUnit, y:pivot.y + this.gameUnit}];
+                this.unlockLeft();
                 this.orientation = 'down';
                 break;
             case('down'):
@@ -444,6 +459,7 @@ export class Zstick extends Block{
                     pivot,
                     {x:pivot.x , y:pivot.y + this.gameUnit },
                     {x:pivot.x + this.gameUnit, y:pivot.y + this.gameUnit}];
+                this.unlockLeft();
                 this.orientation = 'right';
                 break;
                 
@@ -554,6 +570,7 @@ export const blockFactory = (params)=>{
             switch(choice){
                 case(0):
                     stick =  new Zstick(params,position,color);
+                    stick.unlockLeft();
                     break;
                 case(1):
                     stick =  new Sstick(params,position,color);

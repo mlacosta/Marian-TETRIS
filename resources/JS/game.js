@@ -1,6 +1,6 @@
 import {increaseSound} from './main.js' ;
-let destSound = new Audio('./resources/sounds/destruction.wav');
 let levelUp = new Audio('./resources/sounds/levelUp.wav');
+let destSound = new Audio('./resources/sounds/destruction.wav');
 
 export class State {
     constructor(){
@@ -53,6 +53,7 @@ export class Game{
         this.rowsCleared = 0;
         this.textColor = "#fff";
         this.generateMatrix();
+        this.changeBg();
 
     }
 
@@ -174,26 +175,23 @@ export class Game{
         this.rowsCleared ++;
 
         if (this.rowsCleared < 10){
+            
             destSound.play();
 
         }else{
             
-            this.level++;
-            if(this.level>10){
-                this.level = 10;
-                destSound.play();
-            }else{
+                this.level++;
                 this.rowsCleared = 0;
                 levelUp.play();
                 this.changeBg();
             }
 
 
-        };
+        }
 
 
         
-    }
+
 
     changeBg(){
         let color;

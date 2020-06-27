@@ -37,10 +37,10 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: .5,
     maxSpeed: 10,
     bgColor: '#000',
-    level: 1
+    level: 1,
+    gameSpeed: 1/2,
 };
 
 let game = new Game(params);
@@ -57,7 +57,7 @@ increaseSound.volume = 0.8;
 
 document.addEventListener('keydown', (event)=>{
     let moveSound = new Audio('./resources/sounds/move.wav');
-    moveSound.volume = 0.3;
+    moveSound.volume = 0.15;
 
     switch(event.keyCode){
         case 37:
@@ -74,7 +74,6 @@ document.addEventListener('keydown', (event)=>{
 
             increaseSound.play();
             block.increaseSpeed();
-            game.score+=1;
             break;
         case 38:
             block.rotate();
@@ -96,6 +95,8 @@ document.addEventListener('keyup', (event)=>{
     }
 })
 //----------------------------------------------------
+
+let showIntro = true;
 const gameLoop = (timeStamp)=>{
     let dt = timeStamp - lastTime;
     lastTime = timeStamp;
@@ -103,40 +104,56 @@ const gameLoop = (timeStamp)=>{
     context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
     game.drawMatrix(context);
 
-    if (debugMode){
-        context.fillStyle = game.textColor;
-        let axis = block.bodyCoor;
-        context.fillText(`Type: ${block.type}`, GAME_WIDTH*.70, 25);
-        context.fillText(`X0: ${axis[0].x}  Y0: ${axis[0].y}`, GAME_WIDTH*.70, 40);
-        context.fillText(`X1: ${axis[1].x}  Y1: ${axis[1].y}`, GAME_WIDTH*.70, 55);
-        context.fillText(`X2: ${axis[2].x}  Y2: ${axis[2].y}`, GAME_WIDTH*.70, 70);
-        context.fillText(`X3: ${axis[3].x}  Y3: ${axis[3].y}`, GAME_WIDTH*.70, 85);
-        context.fillText(`Color: ${block.color}`, GAME_WIDTH*.70, 100);
-        context.fillText(`Right Crash: ${!block.enableRight}`, GAME_WIDTH*.70, 115);
-        context.fillText(`Left Crash: ${!block.enableLeft}`, GAME_WIDTH*.70, 130);
-        context.fillText(`Orientation: ${block.orientation}`, GAME_WIDTH*.70, 145);
-        context.fillText(`Speed: ${params.gameSpeed}`, GAME_WIDTH*.70, 160);
-
-        context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 25);
-        context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 40);
-        context.fillText(`Rows Cleared: ${game.rowsCleared}`, GAME_WIDTH*.05, 55);
-    }
-
-    switch (game.state.state){
-        case 'new block':
-            block.draw(context);
-            block.update();
-            game.checkMovement(block);
-            block.collisionDetection(game);
-            break;
-        case 'update matrix':
-            game.checkDestruction();
-            game.state.newBlock();
-            params.gameSpeed = game.level/2;
-            block = blockFactory(params);
-            break;
+    if(showIntro && frameCount<80){
+        context.fillStyle = "#f0f";
+        context.font = "25px Arial";
+        context.fillText('TETRIS',GAME_WIDTH*.36,GAME_HEIGHT*.45);
+        context.font = "20px Arial";
+        //context.fillStyle = "#0Ff";
+        //context.fillText('by Mariano L. Acosta',GAME_WIDTH*.20,GAME_HEIGHT*.50);
         
+        frameCount++;
+    }else{
+        
+        if (debugMode){
+            context.font = "10px Arial";
+            context.fillStyle = game.textColor;
+            let axis = block.bodyCoor;
+            context.fillText(`Type: ${block.type}`, GAME_WIDTH*.70, 25);
+            context.fillText(`X0: ${axis[0].x}  Y0: ${axis[0].y}`, GAME_WIDTH*.70, 40);
+            context.fillText(`X1: ${axis[1].x}  Y1: ${axis[1].y}`, GAME_WIDTH*.70, 55);
+            context.fillText(`X2: ${axis[2].x}  Y2: ${axis[2].y}`, GAME_WIDTH*.70, 70);
+            context.fillText(`X3: ${axis[3].x}  Y3: ${axis[3].y}`, GAME_WIDTH*.70, 85);
+            context.fillText(`Color: ${block.color}`, GAME_WIDTH*.70, 100);
+            context.fillText(`Right Crash: ${!block.enableRight}`, GAME_WIDTH*.70, 115);
+            context.fillText(`Left Crash: ${!block.enableLeft}`, GAME_WIDTH*.70, 130);
+            context.fillText(`Orientation: ${block.orientation}`, GAME_WIDTH*.70, 145);
+            context.fillText(`Speed: ${params.gameSpeed}`, GAME_WIDTH*.70, 160);
+    
+            context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 25);
+            context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 40);
+            context.fillText(`Bonus: ${block.bonus}`, GAME_WIDTH*.05, 55);
+            context.fillText(`Rows Cleared: ${game.rowsCleared}`, GAME_WIDTH*.05, 70);
+        }
+    
+        switch (game.state.state){
+            case 'new block':
+                block.draw(context);
+                block.update();
+                game.checkMovement(block);
+                block.collisionDetection(game);
+                break;
+            case 'update matrix':
+                game.checkDestruction();
+                game.state.newBlock();
+                params.gameSpeed = game.level/2;
+                block = blockFactory(params);
+                break;
+            
+        }
     }
+
+
 
     requestAnimationFrame(gameLoop)
     
