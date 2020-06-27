@@ -16,19 +16,27 @@ import {Block,blockFactory} from './blocks.js';
 import {Game} from './game.js';
 import {inputHandler} from './utils.js';
 
-const GAME_WIDTH = 400;
-const GAME_HEIGHT = 640;
-const GAME_UNIT = GAME_WIDTH/20;
-
 let playfield = document.getElementById('playfield');
 let context = playfield.getContext('2d');
 let debugMode = true;
+let jumboMode = true;
+let scale = 10;
+
+if (jumboMode){
+    playfield.width = '400';
+    playfield.height = '640';
+    scale = 20;
+}
+
+const GAME_WIDTH = playfield.width;
+const GAME_HEIGHT = playfield.height;
+const GAME_UNIT = GAME_WIDTH/scale;
 
 let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 2,
+    gameSpeed: 1,
     maxSpeed: 10,
     bgColor: '#000'
 };
@@ -80,16 +88,16 @@ const gameLoop = (timeStamp)=>{
     if (debugMode){
         context.fillStyle = '#fff';
         let axis = block.bodyCoor;
-        context.fillText(`Type: ${block.type}`, 300, 25);
-        context.fillText(`X0: ${axis[0].x}  Y0: ${axis[0].y}`, 300, 40);
-        context.fillText(`X1: ${axis[1].x}  Y1: ${axis[1].y}`, 300, 55);
-        context.fillText(`X2: ${axis[2].x}  Y2: ${axis[2].y}`, 300, 70);
-        context.fillText(`X3: ${axis[3].x}  Y3: ${axis[3].y}`, 300, 85);
-        context.fillText(`Color: ${block.color}`, 300, 100);
-        context.fillText(`Right Crash: ${!block.enableRight}`, 300, 115);
-        context.fillText(`Left Crash: ${!block.enableLeft}`, 300, 130);
-        context.fillText(`Orientation: ${block.orientation}`, 300, 145);
-        context.fillText(`Speed: ${params.gameSpeed}`, 300, 160);
+        context.fillText(`Type: ${block.type}`, GAME_WIDTH*.70, 25);
+        context.fillText(`X0: ${axis[0].x}  Y0: ${axis[0].y}`, GAME_WIDTH*.70, 40);
+        context.fillText(`X1: ${axis[1].x}  Y1: ${axis[1].y}`, GAME_WIDTH*.70, 55);
+        context.fillText(`X2: ${axis[2].x}  Y2: ${axis[2].y}`, GAME_WIDTH*.70, 70);
+        context.fillText(`X3: ${axis[3].x}  Y3: ${axis[3].y}`, GAME_WIDTH*.70, 85);
+        context.fillText(`Color: ${block.color}`, GAME_WIDTH*.70, 100);
+        context.fillText(`Right Crash: ${!block.enableRight}`, GAME_WIDTH*.70, 115);
+        context.fillText(`Left Crash: ${!block.enableLeft}`, GAME_WIDTH*.70, 130);
+        context.fillText(`Orientation: ${block.orientation}`, GAME_WIDTH*.70, 145);
+        context.fillText(`Speed: ${params.gameSpeed}`, GAME_WIDTH*.70, 160);
     }
 
     switch (game.state.state){
