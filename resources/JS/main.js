@@ -59,9 +59,6 @@ document.addEventListener('keydown', (event)=>{
     let moveSound = new Audio('./resources/sounds/move.wav');
     moveSound.volume = 0.3;
 
-
-
-
     switch(event.keyCode){
         case 37:
             block.moveLeft();
