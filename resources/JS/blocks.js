@@ -110,7 +110,7 @@ export class Block {
 
     collisionDetection = (game)=>{
         for(let i=0; i<4;i++){
-            if(this.bodyCoor[i].y < 1){
+            if((this.bodyCoor[i].y <= 1)&&(this.bodyCoor[i].y >= 0)){
                 if (game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y] !== game.bgColor){
                     game.state.gameOver(game);
                     break;
@@ -149,6 +149,10 @@ export class Block {
 
     unlockLeft(){
         this.enableLeft =  true;
+    }
+
+    rotate(){
+
     }
 
 }
@@ -436,15 +440,58 @@ export class Zstick extends Block{
         }
 
     }
+}
+
+export class Sstick extends Block{
+    constructor(params,position,color){
+        super(params,position,color);
+        this.type = 'S_stick';
+        this.body = [{x: position.x, y:position.y + this.gameUnit},
+            {x:this.position.x + this.gameUnit, y:this.position.y + this.gameUnit},
+            {x:this.position.x + this.gameUnit, y:this.position.y},
+            {x:this.position.x + 2*this.gameUnit, y:this.position.y}]
+        
+            this.orientation = 'right';
+
+    }
+
+    rotate(){
+
+        let pivot = this.body[1];
     
+        switch(this.orientation){
+            case('right'):
+                this.body = [{x:pivot.x , y:pivot.y - this.gameUnit},
+                    pivot,
+                    {x:pivot.x + this.gameUnit, y:pivot.y },
+                    {x:pivot.x + this.gameUnit, y:pivot.y + this.gameUnit}];
+                this.orientation = 'down';
+                this.unlockLeft();
+                break;
+            case('down'):
+                if(pivot.x === this.gameWidht - this.gameUnit){
+                    pivot.x-= this.gameUnit;
+                }
+                if(pivot.x === 0){
+                    pivot.x+= this.gameUnit;
+                }
+                this.body = [{x:pivot.x - this.gameUnit, y:pivot.y},
+                    pivot,
+                    {x:pivot.x , y:pivot.y - this.gameUnit },
+                    {x:pivot.x + this.gameUnit, y:pivot.y - this.gameUnit}];
+                this.orientation = 'right';
+                break;
+                
+        }
+
+    }
 }
 
 export const blockFactory = (params)=>{
-    let choice = Math.floor(Math.random()*6);
+    let choice = Math.floor(Math.random()*5);
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
-
-    //choice = 5;
+    let stick;
 
     switch(choice){
         case 0:
@@ -452,37 +499,65 @@ export const blockFactory = (params)=>{
                 x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-1))*params.gameUnit,
                 y:0
             };
-            return new Block(params,position,color);
+            stick =  new Block(params,position,color);
+            break;
         case 1:
             position =  {
                 x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-1))*params.gameUnit,
                 y:0
             };
-            return new Stick(params,position,color);
+            stick =  new Stick(params,position,color);
+            break;
         case 2:
             position =  {
                 x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-2))*params.gameUnit,
                 y:0
             };
-            return new Lstick(params,position,color);
+            choice = Math.floor(Math.random()*2);
+
+            switch(choice){
+                case(0):
+                    stick =  new Lstick(params,position,color);
+                    break;
+                case(1):
+                    stick =  new Rstick(params,position,color);
+                    break;
+            }
+            break;
+            
         case 3:
             position =  {
                 x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-2))*params.gameUnit,
                 y:0
             };
-            return new Rstick(params,position,color);
+            stick =  new Tstick(params,position,color);
+            break;
+
         case 4:
             position =  {
                 x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-2))*params.gameUnit,
                 y:0
             };
-            return new Tstick(params,position,color);
-        case 5:
-            position =  {
-                x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-2))*params.gameUnit,
-                y:0
-            };
-            return new Zstick(params,position,color);
+            choice = Math.floor(Math.random()*2);
+
+            switch(choice){
+                case(0):
+                    stick =  new Zstick(params,position,color);
+                    break;
+                case(1):
+                    stick =  new Sstick(params,position,color);
+                    break;
+            }
+            break;
+            
+
     }
+
+    let orientation = Math.floor((Math.random()*4));
+
+    for (let i = 0; i<= orientation; i++){
+        stick.rotate();
+    }
+    return stick;
     
 }

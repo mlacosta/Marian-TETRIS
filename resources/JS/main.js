@@ -19,7 +19,7 @@ import {inputHandler} from './utils.js';
 let playfield = document.getElementById('playfield');
 let context = playfield.getContext('2d');
 let debugMode = true;
-let jumboMode = false;
+let jumboMode = true;
 let scale = 10;
 
 if (jumboMode){
