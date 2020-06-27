@@ -104,7 +104,7 @@ const gameLoop = (timeStamp)=>{
     game.drawMatrix(context);
 
     if (debugMode){
-        context.fillStyle = '#fff';
+        context.fillStyle = game.textColor;
         let axis = block.bodyCoor;
         context.fillText(`Type: ${block.type}`, GAME_WIDTH*.70, 25);
         context.fillText(`X0: ${axis[0].x}  Y0: ${axis[0].y}`, GAME_WIDTH*.70, 40);

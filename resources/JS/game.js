@@ -1,5 +1,6 @@
 import {increaseSound} from './main.js' ;
-let destSound = new Audio('./resources/sounds/destruction.wav')
+let destSound = new Audio('./resources/sounds/destruction.wav');
+let levelUp = new Audio('./resources/sounds/levelUp.wav');
 
 export class State {
     constructor(){
@@ -22,13 +23,15 @@ export class State {
 
     gameOver(game){
         increaseSound.pause();
-        alert('GAME OVER!')
+        alert(`GAME OVER! \n\nYOUR SCORE: ${game.score}`);
         let gameOverSound = new Audio('./resources/sounds/gameOver.wav');
         gameOverSound.play();
 
-        
+        game.speed = 0.5;
         game.level = 1;
         game.score = 0;
+        game.rowsCleared = 0;
+        game.changeBg()
         game.generateMatrix();
     }
 
@@ -48,6 +51,7 @@ export class Game{
         this.score = 0;
         this.rowsDestroyed = 0;
         this.rowsCleared = 0;
+        this.textColor = "#fff";
         this.generateMatrix();
 
     }
@@ -169,13 +173,91 @@ export class Game{
 
         this.rowsCleared ++;
 
-        if (this.rowsCleared === 10){
+        if (this.rowsCleared < 10){
+            destSound.play();
+
+        }else{
+            
             this.level++;
-            this.rowsCleared = 0;
+            if(this.level>10){
+                this.level = 10;
+                destSound.play();
+            }else{
+                this.rowsCleared = 0;
+                levelUp.play();
+                this.changeBg();
+            }
+
+
         };
 
 
-        destSound.play();
+        
+    }
+
+    changeBg(){
+        let color;
+        switch(this.level){
+            case(2):
+                this.textColor = "#000";
+                color = "#fff";
+                break;
+            case(3):
+                this.textColor = "#000";
+                color ="#cfc";
+                break;
+            
+            case(4):
+                this.textColor = "#fff";
+                color ="#ffe6b3";
+                break;
+            case(5):
+                this.textColor = "#000";
+                color ="#9cf";
+                break;
+            case(6):
+                this.textColor = "#fff";
+                color = "#c68a53";
+                break;
+            case(7):
+                this.textColor = "#e60000";
+                color = "#c2c2d6";
+                break;
+            case(8):
+                color = "#ff80bf"
+                this.textColor = "#e60000";
+                break;
+            case(9):
+                color = "#ffff80";
+                this.textColor = "#e60000";
+                break;
+            case(10):
+                color = "#9f80ff";
+                this.textColor = "#e60000";
+                break;
+
+            default:
+                this.textColor = "#fff";
+                color = "#000";
+                break;
+        }
+
+        this.replaceBg(this.bgColor,color);
+        this.bgColor = color;
+        
+    }
+
+    replaceBg(oldColor,newColor){
+        let dim = [ this.gameMatrix.length, this.gameMatrix[0].length ];
+
+        for (let i = 0 ; i< dim[0]; i++){
+            for(let j = 0; j< dim[1]; j++){
+                if(this.gameMatrix[i][j] === oldColor){
+                    this.gameMatrix[i][j] = newColor;
+                }
+                
+            }
+        }    
     }
     
 }
