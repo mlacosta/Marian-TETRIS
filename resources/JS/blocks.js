@@ -397,12 +397,54 @@ export class Rstick extends Block{
     
 }
 
+export class Zstick extends Block{
+    constructor(params,position,color){
+        super(params,position,color);
+        this.type = 'Z_stick';
+        this.body = [position,
+            {x:this.position.x + this.gameUnit, y:this.position.y},
+            {x:this.position.x + this.gameUnit, y:this.position.y + this.gameUnit},
+            {x:this.position.x + 2*this.gameUnit, y:this.position.y + this.gameUnit}]
+        
+            this.orientation = 'right';
+
+    }
+
+    rotate(){
+
+        let pivot = this.body[1];
+    
+        switch(this.orientation){
+            case('right'):
+                this.body = [{x:pivot.x , y:pivot.y - this.gameUnit},
+                    pivot,
+                    {x:pivot.x - this.gameUnit, y:pivot.y },
+                    {x:pivot.x - this.gameUnit, y:pivot.y + this.gameUnit}];
+                this.orientation = 'down';
+                break;
+            case('down'):
+                if(pivot.x === this.gameWidht - this.gameUnit){
+                    pivot.x-= this.gameUnit;
+                }
+                this.body = [{x:pivot.x - this.gameUnit, y:pivot.y},
+                    pivot,
+                    {x:pivot.x , y:pivot.y + this.gameUnit },
+                    {x:pivot.x + this.gameUnit, y:pivot.y + this.gameUnit}];
+                this.orientation = 'right';
+                break;
+                
+        }
+
+    }
+    
+}
+
 export const blockFactory = (params)=>{
-    let choice = Math.floor(Math.random()*5);
+    let choice = Math.floor(Math.random()*6);
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
 
-    //choice = 4;
+    //choice = 5;
 
     switch(choice){
         case 0:
@@ -435,6 +477,12 @@ export const blockFactory = (params)=>{
                 y:0
             };
             return new Tstick(params,position,color);
+        case 5:
+            position =  {
+                x:Math.floor(Math.random()*(params.gameWidht/params.gameUnit-2))*params.gameUnit,
+                y:0
+            };
+            return new Zstick(params,position,color);
     }
     
 }
