@@ -109,8 +109,8 @@ const gameLoop = (timeStamp)=>{
         context.font = "25px Arial";
         context.fillText('TETRIS',GAME_WIDTH*.36,GAME_HEIGHT*.45);
         context.font = "20px Arial";
-        //context.fillStyle = "#0Ff";
-        //context.fillText('by Mariano L. Acosta',GAME_WIDTH*.20,GAME_HEIGHT*.50);
+        context.fillStyle = "#0Ff";
+        context.fillText('by Mariano L. Acosta',GAME_WIDTH*.20,GAME_HEIGHT*.50);
         
         frameCount++;
     }else{
