@@ -19,7 +19,7 @@ import {inputHandler} from './utils.js';
 let playfield = document.getElementById('playfield');
 let context = playfield.getContext('2d');
 let debugMode = true;
-let jumboMode = true;
+let jumboMode = false;
 let scale = 10;
 
 if (jumboMode){
@@ -38,7 +38,8 @@ let params = {
     gameUnit: GAME_UNIT,
     gameSpeed: 1,
     maxSpeed: 10,
-    bgColor: '#000'
+    bgColor: '#000',
+    level: 0
 };
 
 let game = new Game(params);
@@ -98,6 +99,9 @@ const gameLoop = (timeStamp)=>{
         context.fillText(`Left Crash: ${!block.enableLeft}`, GAME_WIDTH*.70, 130);
         context.fillText(`Orientation: ${block.orientation}`, GAME_WIDTH*.70, 145);
         context.fillText(`Speed: ${params.gameSpeed}`, GAME_WIDTH*.70, 160);
+
+        context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 25);
+        context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 40);
     }
 
     switch (game.state.state){

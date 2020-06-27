@@ -19,6 +19,8 @@ export class State {
 
     gameOver(game){
         //alert('GAME OVER!')
+        game.level = 0;
+        game.score = 0;
         game.generateMatrix();
     }
 
@@ -34,6 +36,9 @@ export class Game{
         this.gameMatrix = [];
         this.state = new State();
         this.bgColor = params.bgColor;
+        this.level = params.level;
+        this.score = 0;
+        this.rowsDestroyed = 0;
         this.generateMatrix();
 
     }
@@ -108,6 +113,8 @@ export class Game{
     checkDestruction(){
         let dim = [this.gameMatrix.length,this.gameMatrix[0].length];
 
+        this.rowsDestroyed = 0; 
+
         for (let j=0;j<dim[1];j++){
             let counter = 0;
             while (counter<dim[0]){
@@ -120,7 +127,25 @@ export class Game{
 
             if (counter === dim[0]){
                 this.destroyRow(j);
+                this.rowsDestroyed++; 
             }
+        }
+
+        switch (this.rowsDestroyed){
+            case(0):
+                break;
+            case(1):
+                this.score += 40*(this.level+1);
+                break;
+            case(2):
+                this.score += 100*(this.level+1);
+                break;
+            case(3):
+                this.score += 300*(this.level+1);
+                break;
+            case(4):
+                this.score += 1200*(this.level+1);
+                break;
         }
     }
 
