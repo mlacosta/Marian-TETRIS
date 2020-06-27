@@ -27,7 +27,7 @@ export class State {
         gameOverSound.play();
 
         
-        game.level = 0;
+        game.level = 1;
         game.score = 0;
         game.generateMatrix();
     }
@@ -47,6 +47,7 @@ export class Game{
         this.level = params.level;
         this.score = 0;
         this.rowsDestroyed = 0;
+        this.rowsCleared = 0;
         this.generateMatrix();
 
     }
@@ -143,16 +144,16 @@ export class Game{
             case(0):
                 break;
             case(1):
-                this.score += 40*(this.level+1);
+                this.score += 40*(this.level);
                 break;
             case(2):
-                this.score += 100*(this.level+1);
+                this.score += 100*(this.level);
                 break;
             case(3):
-                this.score += 300*(this.level+1);
+                this.score += 300*(this.level);
                 break;
             case(4):
-                this.score += 1200*(this.level+1);
+                this.score += 1200*(this.level);
                 break;
         }
     }
@@ -165,6 +166,14 @@ export class Game{
             this.gameMatrix[x].splice(row,1);
             this.gameMatrix[x].unshift(this.bgColor);
         }
+
+        this.rowsCleared ++;
+
+        if (this.rowsCleared === 10){
+            this.level++;
+            this.rowsCleared = 0;
+        };
+
 
         destSound.play();
     }

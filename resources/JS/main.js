@@ -37,10 +37,10 @@ let params = {
     gameWidht: GAME_WIDTH,
     gameHeigth: GAME_HEIGHT,
     gameUnit: GAME_UNIT,
-    gameSpeed: 1,
+    gameSpeed: .5,
     maxSpeed: 10,
     bgColor: '#000',
-    level: 0
+    level: 1
 };
 
 let game = new Game(params);
@@ -74,6 +74,7 @@ document.addEventListener('keydown', (event)=>{
 
             increaseSound.play();
             block.increaseSpeed();
+            game.score+=1;
             break;
         case 38:
             block.rotate();
@@ -118,6 +119,7 @@ const gameLoop = (timeStamp)=>{
 
         context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 25);
         context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 40);
+        context.fillText(`Rows Cleared: ${game.rowsCleared}`, GAME_WIDTH*.05, 55);
     }
 
     switch (game.state.state){
@@ -130,6 +132,7 @@ const gameLoop = (timeStamp)=>{
         case 'update matrix':
             game.checkDestruction();
             game.state.newBlock();
+            params.gameSpeed = game.level/2;
             block = blockFactory(params);
             break;
         
