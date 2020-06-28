@@ -16,6 +16,7 @@ import {Block,blockFactory} from './blocks.js';
 import {Game, levelUpflag, setLevelUpflag} from './game.js';
 import {inputHandler} from './utils.js';
 
+let version = '1.0.0';
 
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
@@ -134,7 +135,8 @@ const gameLoop = (timeStamp)=>{
         context.fillText('Marian TETRIS',GAME_WIDTH*.5,GAME_HEIGHT*.45);
         context.font = "20px Orbitron";
         context.fillStyle = "#000";
-        context.fillText('Version 1.0.0',GAME_WIDTH*.5,GAME_HEIGHT*.50);
+        context.fillText(`Version ${version}`,GAME_WIDTH*.5,GAME_HEIGHT*.50);
+        
         
         frameCount++;
     }else{
@@ -156,7 +158,7 @@ const gameLoop = (timeStamp)=>{
             context.fillText(`Orientation: ${block.orientation}`, GAME_WIDTH*.70, 145);
             context.fillText(`Speed: ${block.speed}`, GAME_WIDTH*.70, 160);
         }
-        context.fillText(`Ver 1.0.0`, GAME_WIDTH*.05, 25);
+        context.fillText(`Ver ${version}.alpha`, GAME_WIDTH*.05, 25);
         context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 40);
         context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 55);
         context.fillText(`Bonus: ${block.bonus}`, GAME_WIDTH*.05, 70);

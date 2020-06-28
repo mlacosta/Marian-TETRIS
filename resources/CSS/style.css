@@ -82,7 +82,10 @@ h3{
 }
 
 #next{
-    margin: 20px 65px 0 90px;
+    
+    margin: 30px 0;
+    margin-left: 57px ;
+    border: 1px solid black;
 }
 
 #next-block{
@@ -104,7 +107,7 @@ h3{
 #author{
     position:relative;
     text-align: center;
-    top: 160px;
+    top: 110px;
     font-size: .8rem;
     font-weight: 300;
     line-height: 1.5;
@@ -112,7 +115,7 @@ h3{
 
 .social-media{
     position:relative;
-    top:180px;
+    top:130px;
     display: flex;
     justify-content: space-evenly;
     width: 120px;
