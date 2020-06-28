@@ -98,6 +98,12 @@ h3{
     justify-content: space-evenly;
     width: 100%;
     align-content: center;
+    margin-left: 14px;
+}
+
+#debug-switch{
+    margin-top: 6px;
+    margin-right: 40px;
 }
 
 #score, #level{

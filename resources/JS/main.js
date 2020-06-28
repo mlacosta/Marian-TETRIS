@@ -15,7 +15,7 @@ import {Block,blockFactory} from './blocks.js';
 import {Game, levelUpflag, setLevelUpflag, displayScore, setdisplayScore,scoreCounter,setScoreCounter} from './game.js';
 import {inputHandler} from './utils.js';
 
-let version = '1.2.0';
+let version = '1.2.1';
 
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
