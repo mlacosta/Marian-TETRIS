@@ -112,7 +112,7 @@ const gameLoop = (timeStamp)=>{
     context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
     game.drawMatrix(context);
 
-    if(showIntro && frameCount<80){
+    if(showIntro && frameCount<90){
         context.fillStyle = "#f0f";
         context.font = "25px Arial";
         context.fillText('TETRIS',GAME_WIDTH*.36,GAME_HEIGHT*.45);

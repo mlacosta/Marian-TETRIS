@@ -46,13 +46,18 @@ body{
 
     width: 100%;
     display: flex;
+    justify-content:inline-block;
     
 }
 
 #playfield{
     border: 5px solid purple;
+    padding-left: 0;
+    padding-right: 0;
     margin-top: 50px;
-    margin-left: 100px;
+    margin-left: auto;
+    margin-right: 0;
+    display: block;
 
 }
 
@@ -60,6 +65,9 @@ body{
     border: 5px solid purple;
     margin-top: 50px;
     margin-left: -5px;
+    padding-right: 0;
+    margin-top: 50px;
+    margin-right: auto;
     background-color: #44088a;
     background-color: black;
     height: 730px;
