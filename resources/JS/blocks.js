@@ -25,6 +25,33 @@ export class Block {
         this.orientation = 'None'   
         this.bonusEnable = false;
         this.bonus = 0;
+        this.bodyAbsolute = [];
+       
+        
+    }
+
+    setBodyAbsolute(){
+        let Xmin = 10000; 
+        let Ymin = 10000;
+        
+
+        for (let i = 0; i<this.body.length;i++){
+            if(this.body[i].x < Xmin){
+                Xmin = this.body[i].x;
+            }
+            if(this.body[i].y < Ymin){
+                Ymin = this.body[i].y;
+            }
+        }
+
+        
+
+
+        for (let i = 0; i<this.body.length;i++){
+            this.bodyAbsolute.push({x:this.body[i].x - Xmin, y:this.body[i].y - Ymin}) 
+        }
+
+
     }
 
     drawUnit(unit,context){
@@ -36,12 +63,18 @@ export class Block {
             this.gameUnit
             );
     }
-    draw (context){
+    draw (context, absolute = false){
         
-
-        for(let i = 0; i<4;i++){
-            this.drawUnit(this.body[i],context);
+        if(!absolute){
+            for(let i = 0; i<4;i++){
+                this.drawUnit(this.body[i],context);
+            }
+        }else{
+            for(let i = 0; i<4;i++){
+                this.drawUnit(this.bodyAbsolute[i],context);
+            }
         }
+
 
     }
     
@@ -186,6 +219,7 @@ export class Stick extends Block{
             {x:this.position.x, y:this.position.y  + 3*this.gameUnit}]
         
         this.orientation = 'down';
+        
 
     }
 
@@ -237,6 +271,7 @@ export class Lstick extends Block{
             {x:this.position.x + 2*this.gameUnit, y:this.position.y  + this.gameUnit}]
         
         this.orientation = 'right';
+       
 
     }
 
@@ -302,6 +337,7 @@ export class Tstick extends Block{
             {x:this.position.x + this.gameUnit, y:this.position.y  + this.gameUnit}]
         
             this.orientation = 'down';
+            
 
     }
 
@@ -371,6 +407,7 @@ export class Rstick extends Block{
             {x:this.position.x + 2*this.gameUnit, y:this.position.y}]
         
         this.orientation = 'right';
+        
 
     }
 

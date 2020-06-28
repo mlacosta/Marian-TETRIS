@@ -13,12 +13,17 @@
 */
 
 import {Block,blockFactory} from './blocks.js';
-import {Game} from './game.js';
+import {Game, levelUpflag, setLevelUpflag} from './game.js';
 import {inputHandler} from './utils.js';
 
 
 let playfield = document.getElementById('playfield');
+let next = document.getElementById('next');
+const message = document.getElementById('message');
+const info = document.getElementById('info');
+
 let context = playfield.getContext('2d');
+let nextCtx = next.getContext('2d');
 let debugMode = true;
 let jumboMode = false;
 let scale = 10;
@@ -46,6 +51,7 @@ let params = {
 let game = new Game(params);
 
 let block = blockFactory(params);
+let nextBlock = blockFactory(params);
 
 let lastTime = 0;
 
@@ -97,6 +103,8 @@ document.addEventListener('keyup', (event)=>{
 //----------------------------------------------------
 
 let showIntro = true;
+let flagCounter = 10000;
+
 const gameLoop = (timeStamp)=>{
     let dt = timeStamp - lastTime;
     lastTime = timeStamp;
@@ -135,6 +143,33 @@ const gameLoop = (timeStamp)=>{
             context.fillText(`Bonus: ${block.bonus}`, GAME_WIDTH*.05, 55);
             context.fillText(`Rows Cleared: ${game.rowsCleared}`, GAME_WIDTH*.05, 70);
         }
+
+        // next info
+            nextCtx.fillStyle = game.bgColor;
+            nextCtx.fillRect(0,0,120,120);
+            nextCtx.fillStyle = nextBlock.color;
+            nextBlock.setBodyAbsolute();
+            nextBlock.draw(nextCtx,true);
+            info.style.backgroundColor = game.bgColor;
+
+        //
+
+        //Messages
+
+        if(levelUpflag){
+            flagCounter = 0;
+            setLevelUpflag(false);  
+        }
+
+        if(flagCounter <90){
+            flagCounter++;
+            message.style.display = 'block';
+        }else{
+            message.style.display = 'none';
+        }
+
+
+        //
     
         switch (game.state.state){
             case 'new block':
@@ -147,11 +182,14 @@ const gameLoop = (timeStamp)=>{
                 game.checkDestruction();
                 game.state.newBlock();
                 params.gameSpeed = game.level/2;
-                block = blockFactory(params);
+                block = nextBlock;
+                nextBlock = blockFactory(params);
+                
                 break;
             case 'game over':{
                 params.gameSpeed = 0.5;
                 block = blockFactory(params);
+                nextBlock = blockFactory(params);
                 game.state.newBlock();
             }
             

@@ -1,6 +1,10 @@
 import {increaseSound} from './main.js' ;
 let levelUp = new Audio('./resources/sounds/levelUp.wav');
-let destSound = new Audio('./resources/sounds/destruction.wav');
+
+export let levelUpflag = false;
+export const setLevelUpflag = (value)=>{
+    levelUpflag = value;
+}
 
 export class State {
     constructor(){
@@ -55,6 +59,7 @@ export class Game{
         this.textColor = "#fff";
         this.generateMatrix();
         this.changeBg();
+        this.frameCount = 0;
 
     }
 
@@ -126,6 +131,8 @@ export class Game{
     }
 
     checkDestruction(){
+        
+        this.frameCount ++;
         let dim = [this.gameMatrix.length,this.gameMatrix[0].length];
 
         this.rowsDestroyed = 0; 
@@ -166,6 +173,9 @@ export class Game{
 
     destroyRow(row){
 
+        let destSound = new Audio('./resources/sounds/destruction.wav');
+        this.frameCount = 0;
+
         let dim = [this.gameMatrix.length,this.gameMatrix[0].length];
 
         for(let x=0; x<dim[0];x++){
@@ -176,23 +186,16 @@ export class Game{
         this.rowsCleared ++;
 
         if (this.rowsCleared < 10){
-            
             destSound.play();
-
         }else{
-            
                 this.level++;
                 this.rowsCleared = 0;
                 levelUp.play();
                 this.changeBg();
+                levelUpflag = true;
+                
             }
-
-
         }
-
-
-        
-
 
     changeBg(){
         let color;
