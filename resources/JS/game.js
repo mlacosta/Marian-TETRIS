@@ -1,6 +1,6 @@
 import {increaseSound} from './main.js' ;
 let levelUp = new Audio('./resources/sounds/levelUp.wav');
-const nextText = document.getElementById('next-block');
+const infoText = document.getElementById('info');
 
 export let levelUpflag = false;
 export const setLevelUpflag = (value)=>{
@@ -201,7 +201,7 @@ export class Game{
     changeBg(){
         let color;
         switch(this.level){
-            case(2):
+            case(1):
                 this.textColor = "#000";
                 color = "#fff";
                 break;
@@ -238,16 +238,15 @@ export class Game{
                 color = "#9f80ff";
                 this.textColor = "#e60000";
                 break;
-
             default:
                 this.textColor = "#fff";
-                color = "#000";
+                color = "#556682";
                 break;
         }
 
         this.replaceBg(this.bgColor,color);
         this.bgColor = color;
-        nextText.style.color = this.textColor;
+        infoText.style.color = this.textColor;
         
     }
 

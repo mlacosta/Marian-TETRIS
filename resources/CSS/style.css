@@ -26,6 +26,7 @@
 html{
     background-color: slateblue ;
     font-family: 'Orbitron', Arial, Helvetica, sans-serif;
+    font-size: 16px;
 }
 
 body{
@@ -71,8 +72,7 @@ body{
     padding-right: 0;
     margin-top: 50px;
     margin-right: auto;
-    background-color: #44088a;
-    background-color: black;
+    background-color: white;
     height: 730px;
     width: 250px;
     //border: 2px solid black;
@@ -87,3 +87,19 @@ body{
     text-align: center;
     margin: 20px 0;
 }
+.debug{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    align-content: center;
+}
+
+
+#author{
+    position:relative;
+    text-align: center;
+    top: 350px;
+    font-size: .8rem;
+    font-weight: 300;
+    line-height: 1.5;
+}  

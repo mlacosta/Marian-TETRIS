@@ -23,7 +23,7 @@ const info = document.getElementById('info');
 
 let context = playfield.getContext('2d');
 let nextCtx = next.getContext('2d');
-let debugMode = true;
+let debugMode = document.getElementById('debug-switch') ;
 let jumboMode = false;
 let scale = 10;
 
@@ -121,11 +121,12 @@ const gameLoop = (timeStamp)=>{
         
         frameCount++;
     }else{
-        
-        if (debugMode){
-            context.textAlign = 'start';
-            context.font = "10px Arial";
-            context.fillStyle = game.textColor;
+
+        context.textAlign = 'start';
+        context.font = "10px Arial";
+        context.fillStyle = game.textColor;
+
+        if (debugMode.checked){
             let axis = block.bodyCoor;
             context.fillText(`Type: ${block.type}`, GAME_WIDTH*.70, 25);
             context.fillText(`X0: ${axis[0].x}  Y0: ${axis[0].y}`, GAME_WIDTH*.70, 40);
@@ -137,12 +138,13 @@ const gameLoop = (timeStamp)=>{
             context.fillText(`Left Crash: ${!block.enableLeft}`, GAME_WIDTH*.70, 130);
             context.fillText(`Orientation: ${block.orientation}`, GAME_WIDTH*.70, 145);
             context.fillText(`Speed: ${block.speed}`, GAME_WIDTH*.70, 160);
-    
-            context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 25);
-            context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 40);
-            context.fillText(`Bonus: ${block.bonus}`, GAME_WIDTH*.05, 55);
-            context.fillText(`Rows Cleared: ${game.rowsCleared}`, GAME_WIDTH*.05, 70);
         }
+
+        context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 25);
+        context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 40);
+        context.fillText(`Bonus: ${block.bonus}`, GAME_WIDTH*.05, 55);
+        context.fillText(`Rows Cleared: ${game.rowsCleared}`, GAME_WIDTH*.05, 70);
+    
 
         // next info
             nextCtx.fillStyle = game.bgColor;
