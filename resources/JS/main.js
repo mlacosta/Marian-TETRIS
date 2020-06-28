@@ -16,12 +16,13 @@ import {Block,blockFactory} from './blocks.js';
 import {Game, levelUpflag, setLevelUpflag} from './game.js';
 import {inputHandler} from './utils.js';
 
-let version = '1.0.0';
+let version = '1.0.1';
 
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
 const info = document.getElementById('info');
 const scoreInfo = document.getElementById('score');
+
 
 let context = playfield.getContext('2d');
 let nextCtx = next.getContext('2d');
