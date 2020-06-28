@@ -19,7 +19,6 @@ import {inputHandler} from './utils.js';
 
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
-const message = document.getElementById('message');
 const info = document.getElementById('info');
 
 let context = playfield.getContext('2d');
@@ -124,6 +123,7 @@ const gameLoop = (timeStamp)=>{
     }else{
         
         if (debugMode){
+            context.textAlign = 'start';
             context.font = "10px Arial";
             context.fillStyle = game.textColor;
             let axis = block.bodyCoor;
@@ -163,11 +163,11 @@ const gameLoop = (timeStamp)=>{
 
         if(flagCounter <90){
             flagCounter++;
-            message.style.display = 'block';
-        }else{
-            message.style.display = 'none';
+            context.fillStyle = '#000';
+            context.font = '16px Orbitron';
+            context.textAlign = 'center';
+            context.fillText('Level Up!',game.gameWidht*.5,game.gameHeigth*.5);
         }
-
 
         //
     

@@ -186,7 +186,7 @@ export class Game{
 
         this.rowsCleared ++;
 
-        if (this.rowsCleared < 10){
+        if (this.rowsCleared < 2){
             destSound.play();
         }else{
                 this.level++;
