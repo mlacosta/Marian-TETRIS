@@ -1,3 +1,16 @@
+/* Author: Mariano L. Acosta
+** github: mlacosta
+** mail: marianoacosta.003@gmail.com
+**
+** Tetris Clone (coded and built from scratch)
+**
+** In this project I'll use many software patterns, including:
+** Module Pattern (self contained code)
+** Factory Pattern
+** State Pattern
+**
+*/
+
 import {increaseSound} from './main.js' ;
 let levelUp = new Audio('./resources/sounds/levelUp.wav');
 const infoText = document.getElementById('info');
@@ -8,7 +21,10 @@ export const setLevelUpflag = (value)=>{
     levelUpflag = value;
 }
 
-export const displayScore = {score:0,display:false};
+export const displayScore = {row:1,score:0,display:false};
+export const setdisplayScore = (value)=>{
+    displayScore.display = value;
+}
 
 export class State {
     constructor(){
@@ -175,6 +191,7 @@ export class Game{
         }
 
         if(this.rowsDestroyed){
+            displayScore.row = this.rowsDestroyed;
             displayScore.score = currentScore;
             displayScore.display = true;
             this.score+= currentScore;

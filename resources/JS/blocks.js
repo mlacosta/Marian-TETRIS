@@ -1,3 +1,16 @@
+/* Author: Mariano L. Acosta
+** github: mlacosta
+** mail: marianoacosta.003@gmail.com
+**
+** Tetris Clone (coded and built from scratch)
+**
+** In this project I'll use many software patterns, including:
+** Module Pattern (self contained code)
+** Factory Pattern
+** State Pattern
+**
+*/
+
 const colors = ['#fcba03','#fc3103','#f8fc03','#adfc03',
                 '#03fc03','#03ebfc','#0367fc','#6203fc',
                 '#ce03fc','#fc039d','#800040'];
@@ -548,7 +561,7 @@ export const blockFactory = (params)=>{
     let color = colors[Math.floor(Math.random()*colors.length)];
     let position;
     let stick;
-    //choice = 3;
+    //choice = 0;
 
     switch(choice){
         case 0:

@@ -8,15 +8,14 @@
 ** Module Pattern (self contained code)
 ** Factory Pattern
 ** State Pattern
-** Observer Pattern
 **
 */
 
 import {Block,blockFactory} from './blocks.js';
-import {Game, levelUpflag, setLevelUpflag} from './game.js';
+import {Game, levelUpflag, setLevelUpflag, displayScore, setdisplayScore} from './game.js';
 import {inputHandler} from './utils.js';
 
-let version = '1.0.2';
+let version = '1.1.0';
 
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
@@ -61,6 +60,8 @@ let frameCount = 0;
 
 let pause = false;
 let pauseCounter = 0;
+
+let scoreCounter = 0;
 
 //input handler------------------------------
 export let increaseSound = new Audio('./resources/sounds/increase.wav');
@@ -123,9 +124,9 @@ const gameLoop = (timeStamp)=>{
     let dt = timeStamp - lastTime;
     lastTime = timeStamp;
 
-    if(!pause){
-        context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
-    }
+
+    context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
+
     
     game.drawMatrix(context);
 
@@ -203,6 +204,51 @@ const gameLoop = (timeStamp)=>{
             }
 
             pauseCounter++;
+        }
+
+        if(displayScore.display){
+
+            let msg = '';
+            let height = 0;
+            let wait = 70;
+
+            if (displayScore.row === 4){
+                msg = 'TETRIS!!'
+                wait = 120;
+            }
+
+            if (displayScore.row === 2){
+                msg = 'Great!'
+                wait = 90;
+            }
+
+            if (displayScore.row === 3){
+                msg = 'Superb!'
+                wait = 90;
+            }
+
+            if (scoreCounter<wait){
+                context.fillStyle = game.textColor;
+                context.font = '16px Orbitron';
+                context.textAlign = 'center';
+
+                height = game.gameHeigth*.7/scoreCounter*20
+                if (height<game.gameHeigth*.4){
+                    height=game.gameHeigth*.4;
+                }
+                if (height>(game.gameHeigth - 25)){
+                    height=game.gameHeigth -25;
+                }
+                
+                context.fillText(`+ ${displayScore.score}!`,game.gameWidht*.5,height);
+                context.fillText(`${msg}`,game.gameWidht*.5,height+30);
+            }else {
+                setdisplayScore(false);
+                scoreCounter = 0;
+            }
+
+            scoreCounter++;
+
         }
 
         //
