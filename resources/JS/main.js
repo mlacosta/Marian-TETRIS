@@ -57,6 +57,9 @@ let lastTime = 0;
 
 let frameCount = 0;
 
+let pause = false;
+let pauseCounter = 0;
+
 //input handler------------------------------
 export let increaseSound = new Audio('./resources/sounds/increase.wav');
 increaseSound.volume = 0.8;
@@ -64,29 +67,38 @@ increaseSound.volume = 0.8;
 document.addEventListener('keydown', (event)=>{
     let moveSound = new Audio('./resources/sounds/move.wav');
     moveSound.volume = 0.15;
+    if (!pause){
+        switch(event.keyCode){
+            case 37:
+                block.moveLeft();
+                increaseSound.pause();
+                moveSound.play();
+                break;
+            case 39:
+                block.moveRight();
+                increaseSound.pause();
+                moveSound.play();
+                break;
+            case 40:
+    
+                increaseSound.play();
+                block.increaseSpeed();
+                break;
+            case 38:
+                block.rotate();
+                increaseSound.pause();
+                moveSound.play();
+                break;
 
-    switch(event.keyCode){
-        case 37:
-            block.moveLeft();
-            increaseSound.pause();
-            moveSound.play();
-            break;
-        case 39:
-            block.moveRight();
-            increaseSound.pause();
-            moveSound.play();
-            break;
-        case 40:
-
-            increaseSound.play();
-            block.increaseSpeed();
-            break;
-        case 38:
-            block.rotate();
-            increaseSound.pause();
-            moveSound.play();
-            break;
+        }
     }
+
+    if(event.keyCode === 32){
+        pause=!pause;
+        pauseCounter = 0;
+
+    }
+
 })
 
 document.addEventListener('keyup', (event)=>{
@@ -109,7 +121,10 @@ const gameLoop = (timeStamp)=>{
     let dt = timeStamp - lastTime;
     lastTime = timeStamp;
 
-    context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
+    if(!pause){
+        context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
+    }
+    
     game.drawMatrix(context);
 
     if(showIntro && frameCount<120){
@@ -141,20 +156,20 @@ const gameLoop = (timeStamp)=>{
             context.fillText(`Orientation: ${block.orientation}`, GAME_WIDTH*.70, 145);
             context.fillText(`Speed: ${block.speed}`, GAME_WIDTH*.70, 160);
         }
-
-        context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 25);
-        context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 40);
-        context.fillText(`Bonus: ${block.bonus}`, GAME_WIDTH*.05, 55);
-        context.fillText(`Rows Cleared: ${game.rowsCleared}`, GAME_WIDTH*.05, 70);
+        context.fillText(`Ver 1.0.0`, GAME_WIDTH*.05, 25);
+        context.fillText(`Level: ${game.level}`, GAME_WIDTH*.05, 40);
+        context.fillText(`Score: ${game.score}`, GAME_WIDTH*.05, 55);
+        context.fillText(`Bonus: ${block.bonus}`, GAME_WIDTH*.05, 70);
+        context.fillText(`Rows Cleared: ${game.rowsCleared}`, GAME_WIDTH*.05, 85);
     
 
         // next info
-            nextCtx.fillStyle = game.bgColor;
-            nextCtx.fillRect(0,0,120,120);
-            nextCtx.fillStyle = nextBlock.color;
-            nextBlock.setBodyAbsolute();
-            nextBlock.draw(nextCtx,true);
-            info.style.backgroundColor = game.bgColor;
+        nextCtx.fillStyle = game.bgColor;
+        nextCtx.fillRect(0,0,120,120);
+        nextCtx.fillStyle = nextBlock.color;
+        nextBlock.setBodyAbsolute();
+        nextBlock.draw(nextCtx,true);
+        info.style.backgroundColor = game.bgColor;
 
         //
 
@@ -173,12 +188,28 @@ const gameLoop = (timeStamp)=>{
             context.fillText('Level Up!',game.gameWidht*.5,game.gameHeigth*.5);
         }
 
+        if(pause){
+            
+            if (pauseCounter<30){
+                context.fillStyle = game.textColor;
+                context.font = '16px Orbitron';
+                context.textAlign = 'center';
+                context.fillText('Pause',game.gameWidht*.5,game.gameHeigth*.45);
+            }else if (pauseCounter>60){
+                pauseCounter = 0;
+            }
+
+            pauseCounter++;
+        }
+
         //
-    
+        
         switch (game.state.state){
             case 'new block':
                 block.draw(context);
-                block.update();
+                if(!pause){
+                    block.update();
+                }
                 game.checkMovement(block);
                 block.collisionDetection(game);
                 break;
@@ -197,12 +228,12 @@ const gameLoop = (timeStamp)=>{
                 game.state.newBlock();
             }
             
+            
         }
+
 
         scoreInfo.innerHTML = `Score: ${game.score + Math.floor(block.bonus/block.gameUnit)}`
     }
-
-
 
     requestAnimationFrame(gameLoop)
     
