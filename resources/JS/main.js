@@ -16,7 +16,7 @@ import {Block,blockFactory} from './blocks.js';
 import {Game, levelUpflag, setLevelUpflag} from './game.js';
 import {inputHandler} from './utils.js';
 
-let version = '1.0.1';
+let version = '1.0.2';
 
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
@@ -235,7 +235,7 @@ const gameLoop = (timeStamp)=>{
         }
 
 
-        scoreInfo.innerHTML = `Score: ${game.score + Math.floor(block.bonus/block.gameUnit)}`
+        scoreInfo.innerHTML = `Score: ${game.score + block.addBonus()}`
     }
 
     requestAnimationFrame(gameLoop)

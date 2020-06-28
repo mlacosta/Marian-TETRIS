@@ -167,7 +167,8 @@ export class Block {
         }
 
         for(let i=0; i<4;i++){
-            if(this.bodyCoor[i].y + 1 === (this.gameHeigth / this.gameUnit)){
+            if((this.bodyCoor[i].y + 1 === (this.gameHeigth / this.gameUnit))
+                ||((game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y + 1] !== game.bgColor))){
                 game.score += this.addBonus();
                 game.state.updateMatrix(this,game);
                 groundSound.play();
@@ -176,14 +177,6 @@ export class Block {
         }
 
         
-        for(let i=0; i<4;i++){
-            if(game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y + 1] !== game.bgColor){
-                game.score += this.addBonus();
-                game.state.updateMatrix(this,game);
-                groundSound.play();
-                break;
-            }
-        }
     
     }
 

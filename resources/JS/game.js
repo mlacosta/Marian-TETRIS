@@ -8,6 +8,8 @@ export const setLevelUpflag = (value)=>{
     levelUpflag = value;
 }
 
+export const displayScore = {score:0,display:false};
+
 export class State {
     constructor(){
         this.state = 'new block';
@@ -133,7 +135,7 @@ export class Game{
     }
 
     checkDestruction(){
-        
+        let currentScore = 0;
         this.frameCount ++;
         let dim = [this.gameMatrix.length,this.gameMatrix[0].length];
 
@@ -159,18 +161,25 @@ export class Game{
             case(0):
                 break;
             case(1):
-                this.score += 40*(this.level);
+                currentScore = 40*(this.level);
                 break;
             case(2):
-                this.score += 100*(this.level);
+                currentScore = 100*(this.level);
                 break;
             case(3):
-                this.score += 300*(this.level);
+                currentScore = 300*(this.level);
                 break;
             case(4):
-                this.score += 1200*(this.level);
+                currentScore = 1200*(this.level);
                 break;
         }
+
+        if(this.rowsDestroyed){
+            displayScore.score = currentScore;
+            displayScore.display = true;
+            this.score+= currentScore;
+        }
+
     }
 
     destroyRow(row){
