@@ -1,5 +1,6 @@
 import {increaseSound} from './main.js' ;
 let levelUp = new Audio('./resources/sounds/levelUp.wav');
+const nextText = document.getElementById('next-block');
 
 export let levelUpflag = false;
 export const setLevelUpflag = (value)=>{
@@ -210,7 +211,7 @@ export class Game{
                 break;
             
             case(4):
-                this.textColor = "#fff";
+                this.textColor = "#000";
                 color ="#ffe6b3";
                 break;
             case(5):
@@ -246,6 +247,7 @@ export class Game{
 
         this.replaceBg(this.bgColor,color);
         this.bgColor = color;
+        nextText.style.color = this.textColor;
         
     }
 

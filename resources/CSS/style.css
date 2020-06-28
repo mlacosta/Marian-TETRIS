@@ -71,3 +71,8 @@ body{
 
     margin: 20px 65px;
 }
+
+#next-block{
+    text-align: center;
+    margin: 20px 0;
+}
