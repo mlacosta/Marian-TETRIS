@@ -175,6 +175,7 @@ export class Game{
     destroyRow(row){
 
         let destSound = new Audio('./resources/sounds/destruction.wav');
+        destSound.volume = 0.5;
         this.frameCount = 0;
 
         let dim = [this.gameMatrix.length,this.gameMatrix[0].length];
@@ -205,7 +206,7 @@ export class Game{
                 this.textColor = "#000";
                 color = "#fff";
                 break;
-            case(3):
+            case(2):
                 this.textColor = "#000";
                 color ="#cfc";
                 break;
