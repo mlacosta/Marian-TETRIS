@@ -26,6 +26,11 @@ export const setdisplayScore = (value)=>{
     displayScore.display = value;
 }
 
+export let scoreCounter = 0;
+export const setScoreCounter = (value)=>{
+    scoreCounter = value;
+}
+
 export class State {
     constructor(){
         this.state = 'new block';
@@ -195,6 +200,7 @@ export class Game{
             displayScore.score = currentScore;
             displayScore.display = true;
             this.score+= currentScore;
+            scoreCounter = 0;
         }
 
         if(this.rowsCleared>=10){

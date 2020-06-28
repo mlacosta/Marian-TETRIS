@@ -12,10 +12,10 @@
 */
 
 import {Block,blockFactory} from './blocks.js';
-import {Game, levelUpflag, setLevelUpflag, displayScore, setdisplayScore} from './game.js';
+import {Game, levelUpflag, setLevelUpflag, displayScore, setdisplayScore,scoreCounter,setScoreCounter} from './game.js';
 import {inputHandler} from './utils.js';
 
-let version = '1.1.1';
+let version = '1.1.2';
 
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
@@ -61,7 +61,7 @@ let frameCount = 0;
 let pause = false;
 let pauseCounter = 0;
 
-let scoreCounter = 0;
+
 
 //input handler------------------------------
 export let increaseSound = new Audio('./resources/sounds/increase.wav');
@@ -244,10 +244,10 @@ const gameLoop = (timeStamp)=>{
                 context.fillText(`${msg}`,game.gameWidht*.5,height+30);
             }else {
                 setdisplayScore(false);
-                scoreCounter = 0;
+                setScoreCounter(0);
             }
 
-            scoreCounter++;
+            setScoreCounter(scoreCounter + 1);
 
         }
 
