@@ -197,6 +197,14 @@ export class Game{
             this.score+= currentScore;
         }
 
+        if(this.rowsCleared>=10){
+            this.level++;
+            this.rowsCleared = 0;
+            levelUp.play();
+            this.changeBg();
+            levelUpflag = true;
+        }
+
     }
 
     destroyRow(row){
@@ -216,13 +224,6 @@ export class Game{
 
         if (this.rowsCleared < 10){
             destSound.play();
-        }else{
-                this.level++;
-                this.rowsCleared = 0;
-                levelUp.play();
-                this.changeBg();
-                levelUpflag = true;
-                
             }
         }
 

@@ -107,7 +107,7 @@ h3{
 #author{
     position:relative;
     text-align: center;
-    top: 110px;
+    top: 70px;
     font-size: .8rem;
     font-weight: 300;
     line-height: 1.5;
@@ -115,7 +115,7 @@ h3{
 
 .social-media{
     position:relative;
-    top:130px;
+    top:85px;
     display: flex;
     justify-content: space-evenly;
     width: 120px;
@@ -135,7 +135,8 @@ h3{
 
 #controls h3{
     text-align: left;
-    margin-left: 35px;
+    margin-left: 33px;
+    margin-top: 60px;
 }
 
 #controls ul{
