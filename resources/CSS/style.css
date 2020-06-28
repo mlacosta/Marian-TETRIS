@@ -35,6 +35,9 @@ body{
     margin: 0;
     display: block;
 }
+h3{
+    text-align: center;
+}
 #message{
     color:black;
     padding-left: 0;
@@ -84,10 +87,11 @@ body{
 }
 
 #next-block{
-    text-align: center;
-    margin: 20px 0;
+    
+    margin: 20px 0 0 0;
 }
 .debug{
+    margin-top: 40px;
     display: flex;
     justify-content: space-evenly;
     width: 100%;
@@ -98,8 +102,23 @@ body{
 #author{
     position:relative;
     text-align: center;
-    top: 350px;
+    top: 300px;
     font-size: .8rem;
     font-weight: 300;
     line-height: 1.5;
-}  
+}
+
+.social-media{
+    position:relative;
+    top:320px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 120px;
+    margin: 0 auto;
+}
+.social-media a{
+    font-size: 1.6rem;
+    text-decoration: none;
+    color:#2d2d2e;
+
+}

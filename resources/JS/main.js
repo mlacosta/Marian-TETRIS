@@ -20,6 +20,7 @@ import {inputHandler} from './utils.js';
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
 const info = document.getElementById('info');
+const scoreInfo = document.getElementById('score');
 
 let context = playfield.getContext('2d');
 let nextCtx = next.getContext('2d');
@@ -111,13 +112,14 @@ const gameLoop = (timeStamp)=>{
     context.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT) //from start to the entire game screen
     game.drawMatrix(context);
 
-    if(showIntro && frameCount<90){
+    if(showIntro && frameCount<120){
         context.fillStyle = "#f0f";
-        context.font = "25px Arial";
-        context.fillText('TETRIS',GAME_WIDTH*.36,GAME_HEIGHT*.45);
-        context.font = "20px Arial";
-        context.fillStyle = "#0Ff";
-        context.fillText('by Mariano L. Acosta',GAME_WIDTH*.20,GAME_HEIGHT*.50);
+        context.font = '25px Orbitron';
+        context.textAlign = 'center';
+        context.fillText('Marian TETRIS',GAME_WIDTH*.5,GAME_HEIGHT*.45);
+        context.font = "20px Orbitron";
+        context.fillStyle = "#000";
+        context.fillText('Version 1.0.0',GAME_WIDTH*.5,GAME_HEIGHT*.50);
         
         frameCount++;
     }else{
@@ -165,7 +167,7 @@ const gameLoop = (timeStamp)=>{
 
         if(flagCounter <90){
             flagCounter++;
-            context.fillStyle = '#000';
+            context.fillStyle = game.textColor;
             context.font = '16px Orbitron';
             context.textAlign = 'center';
             context.fillText('Level Up!',game.gameWidht*.5,game.gameHeigth*.5);
@@ -196,6 +198,8 @@ const gameLoop = (timeStamp)=>{
             }
             
         }
+
+        scoreInfo.innerHTML = `Score: ${game.score + Math.floor(block.bonus/block.gameUnit)}`
     }
 
 

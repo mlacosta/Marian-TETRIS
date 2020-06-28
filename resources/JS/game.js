@@ -240,7 +240,7 @@ export class Game{
                 break;
             default:
                 this.textColor = "#fff";
-                color = "#556682";
+                color = "#072d69";
                 break;
         }
 
