@@ -15,13 +15,13 @@ import {Block,blockFactory} from './blocks.js';
 import {Game, levelUpflag, setLevelUpflag, displayScore, setdisplayScore,scoreCounter,setScoreCounter} from './game.js';
 import {inputHandler} from './utils.js';
 
-let version = '1.1.2';
+let version = '1.2.0';
 
 let playfield = document.getElementById('playfield');
 let next = document.getElementById('next');
 const info = document.getElementById('info');
 const scoreInfo = document.getElementById('score');
-
+const levelInfo = document.getElementById('level');
 
 let context = playfield.getContext('2d');
 let nextCtx = next.getContext('2d');
@@ -282,6 +282,7 @@ const gameLoop = (timeStamp)=>{
 
 
         scoreInfo.innerHTML = `Score: ${game.score + block.addBonus()}`
+        levelInfo.innerHTML = `Level: ${game.level}`
     }
 
     requestAnimationFrame(gameLoop)

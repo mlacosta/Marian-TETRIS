@@ -100,14 +100,18 @@ h3{
     align-content: center;
 }
 
-#score{
+#score, #level{
     font-size: 1.5rem;
+}
+
+#level{
+    margin-top: 20px;
 }
 
 #author{
     position:relative;
     text-align: center;
-    top: 70px;
+    top: 60px;
     font-size: .8rem;
     font-weight: 300;
     line-height: 1.5;
@@ -115,7 +119,7 @@ h3{
 
 .social-media{
     position:relative;
-    top:85px;
+    top:70px;
     display: flex;
     justify-content: space-evenly;
     width: 120px;
@@ -136,7 +140,7 @@ h3{
 #controls h3{
     text-align: left;
     margin-left: 33px;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 #controls ul{
