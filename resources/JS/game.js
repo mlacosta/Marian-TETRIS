@@ -270,8 +270,8 @@ export class Game{
                 this.textColor = "#e60000";
                 break;
             case(10):
-                color = "#9f80ff";
-                this.textColor = "#e60000";
+                color = "#000";
+                this.textColor = "#00e63d";
                 break;
             default:
                 this.textColor = "#fff";
