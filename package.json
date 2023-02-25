@@ -1,0 +1,14 @@
+{
+  "name": "marian-tetris",
+  "version": "1.4.0",
+  "description": "JS Tetris game",
+  "main": "index.html",
+  "repository": "https://github.com/mlacosta/Marian-TETRIS",
+  "author": "mlacosta <marianoacosta.003@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
