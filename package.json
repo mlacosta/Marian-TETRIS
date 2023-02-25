@@ -1,14 +1,20 @@
 {
   "name": "marian-tetris",
+  "license": "MIT license",
   "version": "1.4.0",
   "description": "JS Tetris game",
   "main": "index.html",
   "repository": "https://github.com/mlacosta/Marian-TETRIS",
   "author": "mlacosta <marianoacosta.003@gmail.com>",
-  "license": "MIT",
-  "private": false,
+  "private": true,
   "devDependencies": {
-    "eslint": "^8.34.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "2.8.4"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .js"
   }
 }

@@ -1,10 +1,10 @@
-
+import { BLOCK_COLORS } from './constants';
 
 export class Block {
   constructor(params, position, color) {
     this.color = color;
-    this.gameWidht = params.gameWidht;
-    this.gameHeigth = params.gameHeigth;
+    this.gameWidth = params.gameWidth;
+    this.gameHeight = params.gameHeight;
     this.gameUnit = params.gameUnit;
     this.speed = params.gameSpeed;
     this.defaultSpeed = params.gameSpeed;
@@ -13,7 +13,7 @@ export class Block {
     this.position = position;
     this.enableRight = true;
     this.enableLeft = true;
-    this.type = "block";
+    this.type = 'block';
     this.body = [
       position,
       { x: this.position.x + this.gameUnit, y: this.position.y },
@@ -30,7 +30,7 @@ export class Block {
       { x: 0, y: 0 },
       { x: 0, y: 0 },
     ];
-    this.orientation = "None";
+    this.orientation = 'None';
     this.bonusEnable = false;
     this.bonus = 0;
     this.bodyAbsolute = [];
@@ -111,7 +111,7 @@ export class Block {
     this.unlockLeft();
     if (this.enableRight) {
       for (let i = 0; i < 4; i++) {
-        if (this.body[i].x + 2 * this.gameUnit > this.gameWidht) {
+        if (this.body[i].x + 2 * this.gameUnit > this.gameWidth) {
           this.lockRight();
           break;
         } else {
@@ -141,8 +141,8 @@ export class Block {
     return Math.floor(this.bonus / this.gameUnit);
   }
 
-  collisionDetection = (game) => {
-    let groundSound = new Audio("../assets/sounds/ground.wav");
+  collisionDetection(game) {
+    let groundSound = new Audio('../assets/sounds/ground.wav');
     groundSound.volume = 0.3;
 
     for (let i = 0; i < 4; i++) {
@@ -160,7 +160,7 @@ export class Block {
 
     for (let i = 0; i < 4; i++) {
       if (
-        this.bodyCoor[i].y + 1 === this.gameHeigth / this.gameUnit ||
+        this.bodyCoor[i].y + 1 === this.gameHeight / this.gameUnit ||
         game.gameMatrix[this.bodyCoor[i].x][this.bodyCoor[i].y + 1] !==
           game.bgColor
       ) {
@@ -170,7 +170,7 @@ export class Block {
         break;
       }
     }
-  };
+  }
 
   lockRight() {
     this.enableRight = false;
@@ -194,7 +194,7 @@ export class Block {
 export class Stick extends Block {
   constructor(params, position, color) {
     super(params, position, color);
-    this.type = "stick";
+    this.type = 'stick';
     this.body = [
       position,
       { x: this.position.x, y: this.position.y + this.gameUnit },
@@ -202,7 +202,7 @@ export class Stick extends Block {
       { x: this.position.x, y: this.position.y + 3 * this.gameUnit },
     ];
 
-    this.orientation = "down";
+    this.orientation = 'down';
   }
 
   rotate() {
@@ -212,32 +212,32 @@ export class Stick extends Block {
       pivot.x += this.gameUnit;
     }
 
-    if (pivot.x === this.gameWidht - this.gameUnit) {
+    if (pivot.x === this.gameWidth - this.gameUnit) {
       pivot.x -= 2 * this.gameUnit;
     }
 
-    if (pivot.x === this.gameWidht - 2 * this.gameUnit) {
+    if (pivot.x === this.gameWidth - 2 * this.gameUnit) {
       pivot.x -= this.gameUnit;
     }
 
     switch (this.orientation) {
-      case "down":
+      case 'down':
         this.body = [
           { x: pivot.x - this.gameUnit, y: pivot.y },
           pivot,
           { x: pivot.x + this.gameUnit, y: pivot.y },
           { x: pivot.x + 2 * this.gameUnit, y: pivot.y },
         ];
-        this.orientation = "right";
+        this.orientation = 'right';
         break;
-      case "right":
+      case 'right':
         this.body = [
           { x: pivot.x, y: pivot.y - this.gameUnit },
           pivot,
           { x: pivot.x, y: pivot.y + this.gameUnit },
           { x: pivot.x, y: pivot.y + this.gameUnit * 2 },
         ];
-        this.orientation = "down";
+        this.orientation = 'down';
         this.unlockLeft();
         break;
     }
@@ -247,7 +247,7 @@ export class Stick extends Block {
 export class Lstick extends Block {
   constructor(params, position, color) {
     super(params, position, color);
-    this.type = "L_stick";
+    this.type = 'L_stick';
     this.body = [
       position,
       { x: this.position.x, y: this.position.y + this.gameUnit },
@@ -261,23 +261,23 @@ export class Lstick extends Block {
       },
     ];
 
-    this.orientation = "right";
+    this.orientation = 'right';
   }
 
   rotate() {
     let pivot = this.body[1];
 
     switch (this.orientation) {
-      case "right":
+      case 'right':
         this.body = [
           { x: pivot.x + this.gameUnit, y: pivot.y },
           pivot,
           { x: pivot.x, y: pivot.y + this.gameUnit },
           { x: pivot.x, y: pivot.y + 2 * this.gameUnit },
         ];
-        this.orientation = "down";
+        this.orientation = 'down';
         break;
-      case "down":
+      case 'down':
         if (pivot.x === this.gameUnit) {
           pivot.x += this.gameUnit;
         }
@@ -290,24 +290,24 @@ export class Lstick extends Block {
           { x: pivot.x - this.gameUnit, y: pivot.y },
           { x: pivot.x - this.gameUnit * 2, y: pivot.y },
         ];
-        this.orientation = "left";
+        this.orientation = 'left';
 
         break;
-      case "left":
+      case 'left':
         this.body = [
           { x: pivot.x - this.gameUnit, y: pivot.y + 2 * this.gameUnit },
           pivot,
           { x: pivot.x, y: pivot.y + this.gameUnit },
           { x: pivot.x, y: pivot.y + 2 * this.gameUnit },
         ];
-        this.orientation = "up";
+        this.orientation = 'up';
         break;
-      case "up":
+      case 'up':
         pivot = this.body[2];
-        if (pivot.x === this.gameWidht - this.gameUnit) {
+        if (pivot.x === this.gameWidth - this.gameUnit) {
           pivot.x -= 2 * this.gameUnit;
         }
-        if (pivot.x === this.gameWidht - 2 * this.gameUnit) {
+        if (pivot.x === this.gameWidth - 2 * this.gameUnit) {
           pivot.x -= this.gameUnit;
         }
 
@@ -318,7 +318,7 @@ export class Lstick extends Block {
           { x: pivot.x + 2 * this.gameUnit, y: pivot.y + this.gameUnit },
         ];
         this.unlockLeft();
-        this.orientation = "right";
+        this.orientation = 'right';
         break;
     }
   }
@@ -327,7 +327,7 @@ export class Lstick extends Block {
 export class Tstick extends Block {
   constructor(params, position, color) {
     super(params, position, color);
-    this.type = "T_stick";
+    this.type = 'T_stick';
     this.body = [
       position,
       { x: this.position.x + this.gameUnit, y: this.position.y },
@@ -338,15 +338,15 @@ export class Tstick extends Block {
       },
     ];
 
-    this.orientation = "down";
+    this.orientation = 'down';
   }
 
   rotate() {
     let pivot = this.body[1];
 
     switch (this.orientation) {
-      case "right":
-        if (pivot.x === this.gameWidht - 2 * this.gameUnit) {
+      case 'right':
+        if (pivot.x === this.gameWidth - 2 * this.gameUnit) {
           pivot.x -= this.gameUnit;
         }
 
@@ -357,9 +357,9 @@ export class Tstick extends Block {
           { x: pivot.x - this.gameUnit, y: pivot.y },
           { x: pivot.x, y: pivot.y + this.gameUnit },
         ];
-        this.orientation = "down";
+        this.orientation = 'down';
         break;
-      case "down":
+      case 'down':
         pivot.y += this.gameUnit;
 
         this.body = [
@@ -368,11 +368,11 @@ export class Tstick extends Block {
           pivot,
           { x: pivot.x, y: pivot.y + this.gameUnit },
         ];
-        this.orientation = "left";
+        this.orientation = 'left';
         break;
-      case "left":
+      case 'left':
         pivot.y += 2 * this.gameUnit;
-        if (pivot.x === this.gameWidht - this.gameUnit) {
+        if (pivot.x === this.gameWidth - this.gameUnit) {
           pivot.x -= this.gameUnit;
         }
         this.body = [
@@ -381,10 +381,10 @@ export class Tstick extends Block {
           { x: pivot.x - this.gameUnit, y: pivot.y },
           { x: pivot.x, y: pivot.y - this.gameUnit },
         ];
-        this.orientation = "up";
+        this.orientation = 'up';
 
         break;
-      case "up":
+      case 'up':
         pivot.x -= this.gameUnit;
         this.body = [
           { x: pivot.x + this.gameUnit, y: pivot.y },
@@ -393,7 +393,7 @@ export class Tstick extends Block {
           { x: pivot.x, y: pivot.y + this.gameUnit },
         ];
 
-        this.orientation = "right";
+        this.orientation = 'right';
         break;
     }
   }
@@ -402,7 +402,7 @@ export class Tstick extends Block {
 export class Rstick extends Block {
   constructor(params, position, color) {
     super(params, position, color);
-    this.type = "r_stick";
+    this.type = 'r_stick';
     this.body = [
       position,
       { x: this.position.x, y: this.position.y + this.gameUnit },
@@ -410,14 +410,14 @@ export class Rstick extends Block {
       { x: this.position.x + 2 * this.gameUnit, y: this.position.y },
     ];
 
-    this.orientation = "right";
+    this.orientation = 'right';
   }
 
   rotate() {
     let pivot = this.body[1];
 
     switch (this.orientation) {
-      case "right":
+      case 'right':
         pivot.x += this.gameUnit;
         this.body = [
           { x: pivot.x - this.gameUnit, y: pivot.y },
@@ -425,9 +425,9 @@ export class Rstick extends Block {
           { x: pivot.x, y: pivot.y + this.gameUnit },
           { x: pivot.x, y: pivot.y + 2 * this.gameUnit },
         ];
-        this.orientation = "down";
+        this.orientation = 'down';
         break;
-      case "down":
+      case 'down':
         pivot.y += this.gameUnit;
         if (pivot.x === this.gameUnit) {
           pivot.x += this.gameUnit;
@@ -438,10 +438,10 @@ export class Rstick extends Block {
           { x: pivot.x - this.gameUnit, y: pivot.y },
           { x: pivot.x - 2 * this.gameUnit, y: pivot.y },
         ];
-        this.orientation = "left";
+        this.orientation = 'left';
         this.unlockLeft();
         break;
-      case "left":
+      case 'left':
         pivot = this.body[2];
         this.body = [
           { x: pivot.x + this.gameUnit, y: pivot.y + this.gameUnit },
@@ -449,11 +449,11 @@ export class Rstick extends Block {
           pivot,
           { x: pivot.x, y: pivot.y - this.gameUnit },
         ];
-        this.orientation = "up";
+        this.orientation = 'up';
         this.unlockLeft();
         break;
-      case "up":
-        if (pivot.x === this.gameWidht - this.gameUnit * 2) {
+      case 'up':
+        if (pivot.x === this.gameWidth - this.gameUnit * 2) {
           pivot.x -= this.gameUnit;
         }
 
@@ -464,7 +464,7 @@ export class Rstick extends Block {
           { x: pivot.x + 2 * this.gameUnit, y: pivot.y },
         ];
 
-        this.orientation = "right";
+        this.orientation = 'right';
         break;
     }
   }
@@ -473,7 +473,7 @@ export class Rstick extends Block {
 export class Zstick extends Block {
   constructor(params, position, color) {
     super(params, position, color);
-    this.type = "Z_stick";
+    this.type = 'Z_stick';
     this.body = [
       position,
       { x: this.position.x + this.gameUnit, y: this.position.y },
@@ -487,14 +487,14 @@ export class Zstick extends Block {
       },
     ];
 
-    this.orientation = "right";
+    this.orientation = 'right';
   }
 
   rotate() {
     let pivot = this.body[1];
 
     switch (this.orientation) {
-      case "right":
+      case 'right':
         this.body = [
           { x: pivot.x, y: pivot.y - this.gameUnit },
           pivot,
@@ -502,10 +502,10 @@ export class Zstick extends Block {
           { x: pivot.x - this.gameUnit, y: pivot.y + this.gameUnit },
         ];
         this.unlockLeft();
-        this.orientation = "down";
+        this.orientation = 'down';
         break;
-      case "down":
-        if (pivot.x === this.gameWidht - this.gameUnit) {
+      case 'down':
+        if (pivot.x === this.gameWidth - this.gameUnit) {
           pivot.x -= this.gameUnit;
         }
         this.body = [
@@ -515,7 +515,7 @@ export class Zstick extends Block {
           { x: pivot.x + this.gameUnit, y: pivot.y + this.gameUnit },
         ];
         this.unlockLeft();
-        this.orientation = "right";
+        this.orientation = 'right';
         break;
     }
   }
@@ -524,7 +524,7 @@ export class Zstick extends Block {
 export class Sstick extends Block {
   constructor(params, position, color) {
     super(params, position, color);
-    this.type = "S_stick";
+    this.type = 'S_stick';
     this.body = [
       { x: position.x, y: position.y + this.gameUnit },
       {
@@ -535,25 +535,25 @@ export class Sstick extends Block {
       { x: this.position.x + 2 * this.gameUnit, y: this.position.y },
     ];
 
-    this.orientation = "right";
+    this.orientation = 'right';
   }
 
   rotate() {
     let pivot = this.body[1];
 
     switch (this.orientation) {
-      case "right":
+      case 'right':
         this.body = [
           { x: pivot.x, y: pivot.y - this.gameUnit },
           pivot,
           { x: pivot.x + this.gameUnit, y: pivot.y },
           { x: pivot.x + this.gameUnit, y: pivot.y + this.gameUnit },
         ];
-        this.orientation = "down";
+        this.orientation = 'down';
         this.unlockLeft();
         break;
-      case "down":
-        if (pivot.x === this.gameWidht - this.gameUnit) {
+      case 'down':
+        if (pivot.x === this.gameWidth - this.gameUnit) {
           pivot.x -= this.gameUnit;
         }
         if (pivot.x === 0) {
@@ -565,7 +565,7 @@ export class Sstick extends Block {
           { x: pivot.x, y: pivot.y - this.gameUnit },
           { x: pivot.x + this.gameUnit, y: pivot.y - this.gameUnit },
         ];
-        this.orientation = "right";
+        this.orientation = 'right';
         break;
     }
   }
@@ -582,7 +582,7 @@ export const blockFactory = (params) => {
     case 0:
       position = {
         x:
-          Math.floor(Math.random() * (params.gameWidht / params.gameUnit - 1)) *
+          Math.floor(Math.random() * (params.gameWidth / params.gameUnit - 1)) *
           params.gameUnit,
         y: 0,
       };
@@ -591,7 +591,7 @@ export const blockFactory = (params) => {
     case 1:
       position = {
         x:
-          Math.floor(Math.random() * (params.gameWidht / params.gameUnit - 1)) *
+          Math.floor(Math.random() * (params.gameWidth / params.gameUnit - 1)) *
           params.gameUnit,
         y: 0,
       };
@@ -600,7 +600,7 @@ export const blockFactory = (params) => {
     case 2:
       position = {
         x:
-          Math.floor(Math.random() * (params.gameWidht / params.gameUnit - 2)) *
+          Math.floor(Math.random() * (params.gameWidth / params.gameUnit - 2)) *
           params.gameUnit,
         y: 0,
       };
@@ -619,7 +619,7 @@ export const blockFactory = (params) => {
     case 3:
       position = {
         x:
-          Math.floor(Math.random() * (params.gameWidht / params.gameUnit - 2)) *
+          Math.floor(Math.random() * (params.gameWidth / params.gameUnit - 2)) *
           params.gameUnit,
         y: 0,
       };
@@ -629,7 +629,7 @@ export const blockFactory = (params) => {
     case 4:
       position = {
         x:
-          Math.floor(Math.random() * (params.gameWidht / params.gameUnit - 2)) *
+          Math.floor(Math.random() * (params.gameWidth / params.gameUnit - 2)) *
           params.gameUnit,
         y: 0,
       };

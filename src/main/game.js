@@ -1,9 +1,8 @@
+export const increaseSound = new Audio('../assets/sounds/increase.wav');
 
-import { increaseSound } from "./index.js";
-
-let levelUp = new Audio("../assets/sounds/levelUp.wav");
-const infoText = document.getElementById("info");
-const socialMedia = document.getElementById("social");
+let levelUp = new Audio('../assets/sounds/levelUp.wav');
+const infoText = document.getElementById('info');
+const socialMedia = document.getElementById('social');
 
 export let levelUpflag = false;
 export const setLevelUpflag = (value) => {
@@ -22,11 +21,11 @@ export const setScoreCounter = (value) => {
 
 export class State {
   constructor() {
-    this.state = "new block";
+    this.state = 'new block';
   }
 
   updateMatrix(block, game) {
-    this.state = "update matrix";
+    this.state = 'update matrix';
     let coordinates = block.bodyCoor;
 
     for (let i = 0; i < 4; i++) {
@@ -35,14 +34,14 @@ export class State {
   }
 
   newBlock() {
-    this.state = "new block";
+    this.state = 'new block';
   }
 
   gameOver(game) {
-    this.state = "game over";
+    this.state = 'game over';
     increaseSound.pause();
     alert(`GAME OVER! \n\nYOUR SCORE: ${game.score}`);
-    let gameOverSound = new Audio("../assets/sounds/gameOver.wav");
+    let gameOverSound = new Audio('../assets/sounds/gameOver.wav');
     gameOverSound.play();
 
     game.speed = 0.5;
@@ -56,8 +55,8 @@ export class State {
 
 export class Game {
   constructor(params) {
-    this.gameWidht = params.gameWidht;
-    this.gameHeigth = params.gameHeigth;
+    this.gameWidth = params.gameWidth;
+    this.gameHeight = params.gameHeight;
     this.gameUnit = params.gameUnit;
     this.speed = params.gameSpeed;
     this.gameMatrix = [];
@@ -67,7 +66,7 @@ export class Game {
     this.score = 0;
     this.rowsDestroyed = 0;
     this.rowsCleared = 0;
-    this.textColor = "#fff";
+    this.textColor = '#fff';
     this.generateMatrix();
     this.changeBg();
     this.frameCount = 0;
@@ -76,10 +75,10 @@ export class Game {
   generateMatrix() {
     this.gameMatrix = [];
 
-    for (let i = 0; i < this.gameWidht / this.gameUnit; i++) {
+    for (let i = 0; i < this.gameWidth / this.gameUnit; i++) {
       let verticalUnits = [];
 
-      for (let i = 0; i < this.gameHeigth / this.gameUnit; i++) {
+      for (let i = 0; i < this.gameHeight / this.gameUnit; i++) {
         verticalUnits.push(this.bgColor);
       }
 
@@ -131,7 +130,7 @@ export class Game {
     count = 0;
 
     for (let i = 0; i < 4; i++) {
-      if (block.bodyCoor[i].x + 1 < this.gameWidht / this.gameUnit) {
+      if (block.bodyCoor[i].x + 1 < this.gameWidth / this.gameUnit) {
         if (
           this.gameMatrix[block.bodyCoor[i].x + 1][block.bodyCoor[i].y] !==
           this.bgColor
@@ -207,7 +206,7 @@ export class Game {
   }
 
   destroyRow(row) {
-    let destSound = new Audio("../assets/sounds/destruction.wav");
+    let destSound = new Audio('../assets/sounds/destruction.wav');
     destSound.volume = 0.5;
     this.frameCount = 0;
 
@@ -229,45 +228,45 @@ export class Game {
     let color;
     switch (this.level) {
       case 1:
-        this.textColor = "#000";
-        color = "#fff";
+        this.textColor = '#000';
+        color = '#fff';
         break;
       case 3:
-        this.textColor = "#000";
-        color = "#cfc";
+        this.textColor = '#000';
+        color = '#cfc';
         break;
 
       case 4:
-        this.textColor = "#000";
-        color = "#ffe6b3";
+        this.textColor = '#000';
+        color = '#ffe6b3';
         break;
       case 5:
-        this.textColor = "#000";
-        color = "#9cf";
+        this.textColor = '#000';
+        color = '#9cf';
         break;
       case 6:
-        this.textColor = "#fff";
-        color = "#c68a53";
+        this.textColor = '#fff';
+        color = '#c68a53';
         break;
       case 7:
-        this.textColor = "#e60000";
-        color = "#c2c2d6";
+        this.textColor = '#e60000';
+        color = '#c2c2d6';
         break;
       case 8:
-        color = "#ff80bf";
-        this.textColor = "#e60000";
+        color = '#ff80bf';
+        this.textColor = '#e60000';
         break;
       case 9:
-        color = "#ffff80";
-        this.textColor = "#e60000";
+        color = '#ffff80';
+        this.textColor = '#e60000';
         break;
       case 10:
-        color = "#000";
-        this.textColor = "#00e63d";
+        color = '#000';
+        this.textColor = '#00e63d';
         break;
       default:
-        this.textColor = "#fff";
-        color = "#072d69";
+        this.textColor = '#fff';
+        color = '#072d69';
         break;
     }
 

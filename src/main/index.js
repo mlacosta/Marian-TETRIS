@@ -1,5 +1,16 @@
-import { blockFactory } from "./blocks.js";
+import { blockFactory } from './blocks.js';
+import { KEYBOARD } from './constants.js';
 import {
+  params,
+  playfieldContext,
+  htmlCanvas,
+  gameSettings,
+  VERSION,
+  DEBUG_MODE,
+  nextContext,
+} from './settings.js';
+import {
+  increaseSound,
   displayScore,
   Game,
   levelUpflag,
@@ -7,92 +18,58 @@ import {
   setdisplayScore,
   setLevelUpflag,
   setScoreCounter,
-} from "./game.js";
-
-const VERSION = "1.4.0";
-
-const playfield = document.getElementById("playfield");
-const next = document.getElementById("next");
-const info = document.getElementById("info");
-const scoreInfo = document.getElementById("score");
-const levelInfo = document.getElementById("level");
-
-const context = playfield.getContext("2d");
-const nextCtx = next.getContext("2d");
-const debugMode = document.getElementById("debug-switch");
-const jumboMode = false;
-const scale = 10;
-
-if (jumboMode) {
-  playfield.width = "400";
-  playfield.height = "640";
-  scale = 20;
-}
-
-const GAME_WIDTH = playfield.width;
-const GAME_HEIGHT = playfield.height;
-const GAME_UNIT = GAME_WIDTH / scale;
-
-const params = {
-  gameWidht: GAME_WIDTH,
-  gameHeigth: GAME_HEIGHT,
-  gameUnit: GAME_UNIT,
-  maxSpeed: 10,
-  bgColor: "#000",
-  level: 1,
-  gameSpeed: 1 / 2,
-};
+} from './game.js';
 
 const game = new Game(params);
 
-const block = blockFactory(params);
-const nextBlock = blockFactory(params);
+let block = blockFactory(params);
+let nextBlock = blockFactory(params);
 
-const lastTime = 0;
+const counters = {
+  pause: 0,
+  frames: 0,
+  levelUp: 10000,
+};
 
-const frameCount = 0;
+let isGamePaused = false;
 
-const pause = false;
-const pauseCounter = 0;
-
-//input handler------------------------------
-export const increaseSound = new Audio("../assets/sounds/increase.wav");
 increaseSound.volume = 0.8;
 
-document.addEventListener("keydown", (event) => {
-  const moveSound = new Audio("../assets/sounds/move.wav");
+document.addEventListener('keydown', (event) => {
+  const moveSound = new Audio('../assets/sounds/move.wav');
   moveSound.volume = 0.15;
-  if (!pause) {
-    switch (event.keyCode) {
-      case 37:
-        block.moveLeft();
-        increaseSound.pause();
-        moveSound.play();
-        break;
-      case 39:
-        block.moveRight();
-        increaseSound.pause();
-        moveSound.play();
-        break;
-      case 40:
-        increaseSound.play();
-        block.increaseSpeed();
-        break;
-      case 38:
-        block.rotate();
-        increaseSound.pause();
-        moveSound.play();
-        break;
-    }
-  }
 
-  if (event.keyCode === 32) {
-    pause = !pause;
-    pauseCounter = 0;
+  const KEYBOARD_ACTIONS = {
+    [KEYBOARD.LEFT]: function () {
+      block.moveLeft();
+      increaseSound.pause();
+      moveSound.play();
+    },
+    [KEYBOARD.RIGHT]: function () {
+      block.moveRight();
+      increaseSound.pause();
+      moveSound.play();
+    },
+    [KEYBOARD.DOWN]: function () {
+      increaseSound.play();
+      block.increaseSpeed();
+    },
+    [KEYBOARD.UP]: function () {
+      block.rotate();
+      increaseSound.pause();
+      moveSound.play();
+    },
+  };
+
+  if (!isGamePaused) KEYBOARD_ACTIONS[event.keyCode]();
+
+  if (event.keyCode === KEYBOARD.SPACEBAR) {
+    isGamePaused = !isGamePaused;
+    counters.pause = 0;
   }
 });
 
-document.addEventListener("keyup", (event) => {
+document.addEventListener('keyup', (event) => {
   switch (event.keyCode) {
     case 40:
       block.restoreSpeed();
@@ -103,164 +80,196 @@ document.addEventListener("keyup", (event) => {
 });
 //----------------------------------------------------
 
-const showIntro = true;
-const flagCounter = 10000;
+const gameLoop = () => {
+  playfieldContext.clearRect(0, 0, params.gameWidth, params.gameHeight); //from start to the entire game screen
+  game.drawMatrix(playfieldContext);
 
-const gameLoop = (timeStamp) => {
-  const dt = timeStamp - lastTime;
-  lastTime = timeStamp;
-
-  context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT); //from start to the entire game screen
-
-  game.drawMatrix(context);
-
-  if (showIntro && frameCount < 120) {
-    context.fillStyle = "#f0f";
-    context.font = "25px Orbitron";
-    context.textAlign = "center";
-    context.fillText("Marian TETRIS", GAME_WIDTH * 0.5, GAME_HEIGHT * 0.45);
-    context.font = "20px Orbitron";
-    context.fillStyle = "#000";
-    context.fillText(`Version ${VERSION}`, GAME_WIDTH * 0.5, GAME_HEIGHT * 0.5);
-
-    frameCount++;
+  if (gameSettings.showIntro && counters.frames < 120) {
+    playfieldContext.fillStyle = '#f0f';
+    playfieldContext.font = '25px Orbitron';
+    playfieldContext.textAlign = 'center';
+    playfieldContext.fillText(
+      'Marian TETRIS',
+      params.gameWidth * 0.5,
+      params.gameHeight * 0.45
+    );
+    playfieldContext.font = '20px Orbitron';
+    playfieldContext.fillStyle = '#000';
+    playfieldContext.fillText(
+      `Version ${VERSION}`,
+      params.gameWidth * 0.5,
+      params.gameHeight * 0.5
+    );
+    counters.frames++;
   } else {
-    context.textAlign = "start";
-    context.font = "10px Arial";
-    context.fillStyle = game.textColor;
+    playfieldContext.textAlign = 'start';
+    playfieldContext.font = '10px Arial';
+    playfieldContext.fillStyle = game.textColor;
 
-    if (debugMode.checked) {
+    if (DEBUG_MODE.checked) {
       const axis = block.bodyCoor;
-      context.fillText(`Type: ${block.type}`, GAME_WIDTH * 0.7, 25);
-      context.fillText(
+      playfieldContext.fillText(
+        `Type: ${block.type}`,
+        params.gameWidth * 0.7,
+        25
+      );
+      playfieldContext.fillText(
         `X0: ${axis[0].x}  Y0: ${axis[0].y}`,
-        GAME_WIDTH * 0.7,
+        params.gameWidth * 0.7,
         40
       );
-      context.fillText(
+      playfieldContext.fillText(
         `X1: ${axis[1].x}  Y1: ${axis[1].y}`,
-        GAME_WIDTH * 0.7,
+        params.gameWidth * 0.7,
         55
       );
-      context.fillText(
+      playfieldContext.fillText(
         `X2: ${axis[2].x}  Y2: ${axis[2].y}`,
-        GAME_WIDTH * 0.7,
+        params.gameWidth * 0.7,
         70
       );
-      context.fillText(
+      playfieldContext.fillText(
         `X3: ${axis[3].x}  Y3: ${axis[3].y}`,
-        GAME_WIDTH * 0.7,
+        params.gameWidth * 0.7,
         85
       );
-      context.fillText(`Color: ${block.color}`, GAME_WIDTH * 0.7, 100);
-      context.fillText(
+      playfieldContext.fillText(
+        `Color: ${block.color}`,
+        params.gameWidth * 0.7,
+        100
+      );
+      playfieldContext.fillText(
         `Right Crash: ${!block.enableRight}`,
-        GAME_WIDTH * 0.7,
+        params.gameWidth * 0.7,
         115
       );
-      context.fillText(
+      playfieldContext.fillText(
         `Left Crash: ${!block.enableLeft}`,
-        GAME_WIDTH * 0.7,
+        params.gameWidth * 0.7,
         130
       );
-      context.fillText(
+      playfieldContext.fillText(
         `Orientation: ${block.orientation}`,
-        GAME_WIDTH * 0.7,
+        params.gameWidth * 0.7,
         145
       );
-      context.fillText(`Speed: ${block.speed}`, GAME_WIDTH * 0.7, 160);
+      playfieldContext.fillText(
+        `Speed: ${block.speed}`,
+        params.gameWidth * 0.7,
+        160
+      );
     }
-    context.fillText(`Ver ${VERSION}.alpha`, GAME_WIDTH * 0.05, 25);
-    context.fillText(`Level: ${game.level}`, GAME_WIDTH * 0.05, 40);
-    context.fillText(`Score: ${game.score}`, GAME_WIDTH * 0.05, 55);
-    context.fillText(`Bonus: ${block.bonus}`, GAME_WIDTH * 0.05, 70);
-    context.fillText(
+    playfieldContext.fillText(
+      `Ver ${VERSION}.alpha`,
+      params.gameWidth * 0.05,
+      25
+    );
+    playfieldContext.fillText(
+      `Level: ${game.level}`,
+      params.gameWidth * 0.05,
+      40
+    );
+    playfieldContext.fillText(
+      `Score: ${game.score}`,
+      params.gameWidth * 0.05,
+      55
+    );
+    playfieldContext.fillText(
+      `Bonus: ${block.bonus}`,
+      params.gameWidth * 0.05,
+      70
+    );
+    playfieldContext.fillText(
       `Rows Cleared: ${game.rowsCleared}`,
-      GAME_WIDTH * 0.05,
+      params.gameWidth * 0.05,
       85
     );
 
     // next info
-    nextCtx.fillStyle = game.bgColor;
-    nextCtx.fillRect(0, 0, 120, 120);
-    nextCtx.fillStyle = nextBlock.color;
+    nextContext.fillStyle = game.bgColor;
+    nextContext.fillRect(0, 0, 120, 120);
+    nextContext.fillStyle = nextBlock.color;
     nextBlock.setBodyAbsolute();
-    nextBlock.draw(nextCtx, true);
-    info.style.backgroundColor = game.bgColor;
-
-    //
-
+    nextBlock.draw(nextContext, true);
     //Messages
 
     if (levelUpflag) {
-      flagCounter = 0;
+      counters.levelUp = 0;
       setLevelUpflag(false);
     }
 
-    if (flagCounter < 90) {
-      flagCounter++;
-      context.fillStyle = game.textColor;
-      context.font = "16px Orbitron";
-      context.textAlign = "center";
-      context.fillText(
-        "Level Up!",
-        game.gameWidht * 0.5,
-        game.gameHeigth * 0.5
+    if (counters.levelUp < 90) {
+      counters.levelUp++;
+      playfieldContext.fillStyle = game.textColor;
+      playfieldContext.font = '16px Orbitron';
+      playfieldContext.textAlign = 'center';
+      playfieldContext.fillText(
+        'Level Up!',
+        game.gameWidth * 0.5,
+        game.gameHeight * 0.5
       );
     }
 
-    if (pause) {
-      if (pauseCounter < 30) {
-        context.fillStyle = game.textColor;
-        context.font = "16px Orbitron";
-        context.textAlign = "center";
-        context.fillText("Pause", game.gameWidht * 0.5, game.gameHeigth * 0.45);
-      } else if (pauseCounter > 60) {
-        pauseCounter = 0;
+    if (isGamePaused) {
+      if (counters.pause < 30) {
+        playfieldContext.fillStyle = game.textColor;
+        playfieldContext.font = '16px Orbitron';
+        playfieldContext.textAlign = 'center';
+        playfieldContext.fillText(
+          'Pause',
+          game.gameWidth * 0.5,
+          game.gameHeight * 0.45
+        );
+      } else if (counters.pause > 60) {
+        counters.pause = 0;
       }
 
-      pauseCounter++;
+      counters.pause++;
     }
 
     if (displayScore.display) {
-      const msg = "";
-      const height = 0;
-      const wait = 70;
+      let displayMessage = '';
+      let height = 0;
+      let wait = 70;
 
       if (displayScore.row === 4) {
-        msg = "TETRIS!!";
+        displayMessage = 'TETRIS!!';
         wait = 120;
       }
 
       if (displayScore.row === 2) {
-        msg = "Great!";
+        displayMessage = 'Great!';
         wait = 90;
       }
 
       if (displayScore.row === 3) {
-        msg = "Superb!";
+        displayMessage = 'Superb!';
         wait = 90;
       }
 
       if (scoreCounter < wait) {
-        context.fillStyle = game.textColor;
-        context.font = "16px Orbitron";
-        context.textAlign = "center";
+        playfieldContext.fillStyle = game.textColor;
+        playfieldContext.font = '16px Orbitron';
+        playfieldContext.textAlign = 'center';
 
-        height = ((game.gameHeigth * 0.7) / scoreCounter) * 20;
-        if (height < game.gameHeigth * 0.4) {
-          height = game.gameHeigth * 0.4;
+        height = ((game.gameHeight * 0.7) / scoreCounter) * 20;
+        if (height < game.gameHeight * 0.4) {
+          height = game.gameHeight * 0.4;
         }
-        if (height > game.gameHeigth - 25) {
-          height = game.gameHeigth - 25;
+        if (height > game.gameHeight - 25) {
+          height = game.gameHeight - 25;
         }
 
-        context.fillText(
+        playfieldContext.fillText(
           `+ ${displayScore.score}!`,
-          game.gameWidht * 0.5,
+          game.gameWidth * 0.5,
           height
         );
-        context.fillText(`${msg}`, game.gameWidht * 0.5, height + 30);
+        playfieldContext.fillText(
+          `${displayMessage}`,
+          game.gameWidth * 0.5,
+          height + 30
+        );
       } else {
         setdisplayScore(false);
         setScoreCounter(0);
@@ -272,15 +281,15 @@ const gameLoop = (timeStamp) => {
     //
 
     switch (game.state.state) {
-      case "new block":
-        block.draw(context);
-        if (!pause) {
+      case 'new block':
+        block.draw(playfieldContext);
+        if (!isGamePaused) {
           block.update();
         }
         game.checkMovement(block);
         block.collisionDetection(game);
         break;
-      case "update matrix":
+      case 'update matrix':
         game.checkDestruction();
         game.state.newBlock();
         params.gameSpeed = game.level / 2;
@@ -288,7 +297,7 @@ const gameLoop = (timeStamp) => {
         nextBlock = blockFactory(params);
 
         break;
-      case "game over": {
+      case 'game over': {
         params.gameSpeed = 0.5;
         block = blockFactory(params);
         nextBlock = blockFactory(params);
@@ -296,8 +305,8 @@ const gameLoop = (timeStamp) => {
       }
     }
 
-    scoreInfo.innerHTML = `Score: ${game.score + block.addBonus()}`;
-    levelInfo.innerHTML = `Level: ${game.level}`;
+    htmlCanvas.scoreInfo.innerHTML = `Score: ${game.score + block.addBonus()}`;
+    htmlCanvas.levelInfo.innerHTML = `Level: ${game.level}`;
   }
 
   requestAnimationFrame(gameLoop);
