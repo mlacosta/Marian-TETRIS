@@ -1,59 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tetris by Mariano L. Acosta</title>
-    <script async type="module" src='./resources/JS/main.js'></script>
-    <link rel="stylesheet" href="./resources/CSS/style.css" ref="text/css">
-    <script src="https://kit.fontawesome.com/ad756e6772.js" crossorigin="anonymous"></script>
-</head>
-<body>
-
-    
-
-    <section id= "main">
-        <!--div id="message">Level UP!</div-->
-        <canvas id= "playfield" width="300" height="720"></canvas>
-        <div id="info">
-            <h3 id='next-block'>Next Block:</h3>
-            <canvas id="next" width="120" height="120"></canvas>
-            <h3 id='score'>Score:</h3>
-            <h3 id='level'>Level:</h3>
-            <div class="debug">
-                <h3>Debug Mode:</h3>
-                <label  class="switch">
-                    <input id = 'debug-switch' type="checkbox" checked>
-                    <span class="slider"></span>
-                  </label>
-            </div>
-            <div id="controls"> 
-                <h3>Controls:</h3>
-                <br>
-                <ul>
-                    <li><strong>L/R arrows:</strong> move block</li>
-                    <li><strong>Up arrow:</strong> rotate block</li>
-                    <li><strong>Down arrow:</strong> Speed up</li>
-                    <li><strong>Spacebar:</strong> Pause</li>
-                </ul>
-
-            </div>
-            
-
-            <h4 id='author'>Coded in pure Javascript by <span style='color:#0367fc;'>Mariano L. Acosta</span></h4>
-            <div id = 'social' class="social-media">
-                <a class="fa fa-github" href="http://www.github.com/mlacosta" target="_blank"></a>
-                <a class="fa fa-linkedin" href="http://www.linkedin.com/in/mlacosta" target="_blank"></a>
-                <a class="fas fa-envelope-square" href="mailto:marianoacosta.003@gmail.com" target="_blank"></a>
-            </div>
-              
+    <script async type="module" src="./src/main/index.js"></script>
+    <link rel="stylesheet" href="./src/assets/styles/style.css" ref="text/css" />
+    <script
+      src="https://kit.fontawesome.com/ad756e6772.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <section id="main">
+      <canvas id="playfield" width="300" height="720"></canvas>
+      <div id="info">
+        <h3 id="next-block">Next Block:</h3>
+        <canvas id="next" width="120" height="120"></canvas>
+        <h3 id="score">Score:</h3>
+        <h3 id="level">Level:</h3>
+        <div class="debug">
+          <h3>Debug Mode:</h3>
+          <label class="switch">
+            <input id="debug-switch" type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
         </div>
+        <div id="controls">
+          <h3>Controls:</h3>
+          <br />
+          <ul>
+            <li><strong>L/R arrows:</strong> move block</li>
+            <li><strong>Up arrow:</strong> rotate block</li>
+            <li><strong>Down arrow:</strong> Speed up</li>
+            <li><strong>Spacebar:</strong> Pause</li>
+          </ul>
+        </div>
+        <h4 id="author">
+          Coded in pure Javascript by
+          <span style="color: #0367fc">Mariano L. Acosta</span>
+        </h4>
+        <div id="social" class="social-media">
+          <a
+            class="fa fa-github"
+            href="http://www.github.com/mlacosta"
+            target="_blank"
+          ></a>
+          <a
+            class="fa fa-linkedin"
+            href="http://www.linkedin.com/in/mlacosta"
+            target="_blank"
+          ></a>
+          <a
+            class="fas fa-envelope-square"
+            href="mailto:marianoacosta.003@gmail.com"
+            target="_blank"
+          ></a>
+        </div>
+      </div>
     </section>
-    <!--section id='debug'>
-        <div id='debug window'>
-            Block Position
-        </div>
-    </section-->
-
-</body>
+  </body>
 </html>
